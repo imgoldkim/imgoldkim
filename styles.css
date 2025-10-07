@@ -1,0 +1,276 @@
+/* CV page background */
+.cv-bg {
+    background-image: url('images/bg1.png') !important;
+    background-repeat: repeat !important;
+    background-size: 150% !important;
+    background-position: center center;
+}
+.artwork-bg {
+    background-image: url('images/background14.png') !important;
+    background-repeat: repeat !important;
+    background-size: 150% !important;
+    background-position: center center;
+}
+.poster-bg {
+    background-image: url('images/background5.png') !important;
+    background-repeat: repeat !important;
+    background-size: 150% !important;
+    background-position: center center;
+}
+.bio-bg {
+    background-image: url('images/background5.png') !important;
+    background-repeat: repeat !important;
+    background-size: 150% !important;
+    background-position: center center;
+}
+.music-bg {
+    background-image: url('images/background5.png') !important;
+    background-repeat: repeat !important;
+    background-size: 150% !important;
+    background-position: center center;
+}
+/* Main page background */
+html, body {
+    height: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+/* Bottom navigation menu styles */
+.bottom-menu {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 20px;
+}
+@font-face {
+    font-family: 'Diatype';
+    src: url('font/diatype/ABCDiatype-Heavy-Trial.woff2') format('woff2'),
+         url('font/diatype/ABCDiatype-Heavy-Trial.woff') format('woff'),
+         url('font/diatype/ABCDiatype-Heavy-Trial.otf') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+/* Diatype font-face declarations */
+@font-face {
+    font-family: 'Diatype';
+    src: url('font/diatype/ABCDiatype-Regular-Trial.woff2') format('woff2'),
+         url('font/diatype/ABCDiatype-Regular-Trial.woff') format('woff'),
+         url('font/diatype/ABCDiatype-Regular-Trial.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Diatype';
+    src: url('font/diatype/ABCDiatype-Bold-Trial.woff2') format('woff2'),
+         url('font/diatype/ABCDiatype-Bold-Trial.woff') format('woff'),
+         url('font/diatype/ABCDiatype-Bold-Trial.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+body {
+    font-family: 'Diatype', Arial, sans-serif;
+    font-weight: 900;
+    line-height: 1.6;
+    background-image: url('images/background1.png');
+    background-repeat: repeat;
+    background-size: 150%;
+    background-position: center center;
+    cursor: url('images/cursor.png'), auto;
+}
+
+/* Custom cursor for all interactive elements */
+*, *::before, *::after {
+    cursor: url('images/cursor.png'), auto;
+}
+
+/* Animated background for main page */
+body.main-bg {
+    background-image: url('images/background1.png');
+    background-repeat: repeat;
+    background-size: 150%;
+    background-position: center center;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: transparent !important;
+}
+
+header {
+    text-align: center;
+    padding: 40px 0;
+}
+
+/* Use Diatype Heavy for headings */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Diatype', Arial, sans-serif;
+    font-weight: 900;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.main-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+}
+
+.hero-image {
+    max-width: 472px;
+    height: auto;
+    border-radius: 8px;
+    animation: float 4s ease-in-out infinite; /* reduced animation time */
+    transition: all 0.3s ease;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-40px); /* increased movement range */
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    margin-top: 40px;
+}
+
+.footer-blue {
+    color: blue;
+}
+
+.top-right-menu {
+    position: absolute;
+    top: 80px;
+    right: 120px; /* moved left from 32px */
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 10.5pt;
+    color: #222;
+    background: background9.png;
+    z-index: 100;
+    display: flex;
+    gap: 8px;
+}
+
+.nav-btn {
+    font-family: 'Diatype', Arial, sans-serif;
+    font-size: 10pt !important; /* force all buttons to same size */
+    color: #FFFFFF;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-weight: 900;
+}
+
+.nav-btn:hover {
+    background: #e0e7ff;
+}
+
+/* Center CV content */
+.cv-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+}
+
+.cv-details {
+    max-width: 700px;
+    margin: 180px auto 0 auto;
+    text-align: center;
+    color: #39FF14; /* neon green */
+    font-weight: 900;
+    font-size: 13pt; /* 본문 글자 크기 */
+}
+
+.cv-title {
+    font-size: 2750px;
+    font-weight: 900;
+    display: inline-block;
+    margin-bottom: 2pt;
+    color: #FFFF00; /* 형광노랑 */
+    background: none;
+    -webkit-background-clip: initial;
+    -webkit-text-fill-color: initial;
+    background-clip: initial;
+    text-fill-color: initial;
+}
+
+.cv-section-title {
+    font-size: 30px;
+    font-weight: 900;
+    display: block;
+    margin: 18px 0 8px 0;
+    color: #2E8B57; /* deep pastel green */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.cv-year {
+    display: block;
+    font-size: 10pt; /* 년도만 10pt */
+    margin-top: 2px;
+    color: #39FF14;
+    font-weight: 900; /* 굵게 */
+}
+
+.cv-subtext {
+    font-size: 11pt;
+    display: block;
+    margin-bottom: 0;
+    line-height: 1.1; /* 더 줄인 줄간격 */
+}
+
+.cv-subtext + .cv-subtext {
+    margin-top: 0;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 96px; /* 사진 사이 간격 더 넓힘 */
+    justify-content: center;
+    margin-top: 240px;
+    padding-left: 64px;
+    padding-right: 64px;
+}
+
+.gallery img {
+    width: 482px;
+    height: 302px;
+    border-radius: 0;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.16);
+    object-fit: contain;
+    background: #222;
+}
+
+.bio-section,
+.bio-section * {
+    color: #FFFAA0; /* brighter light yellow */
+    font-size: 12pt;
+}
+
+img {
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+}
