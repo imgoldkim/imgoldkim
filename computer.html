@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Computer — Interface prototype</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="computer.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bubbler+One&display=swap" rel="stylesheet">
+</head>
+<body class="main-bg">
+  <div class="container">
+    <div class="top-right-title"><a class="top-right-title-link" href="index.html" aria-label="Go to home">●◦∘◦Imgoldkim ●◌◌∘◦∘<span class="kr">금이다</span>∘◌∘</a></div>
+    <nav class="top-right-menu">
+      <a class="nav-link" href="info.html">Info</a>
+      <a class="nav-link" href="work.html">Work</a>
+      <a class="nav-link" href="events.html">Events</a>
+      <a class="nav-link" href="contact.html">Contact</a>
+    </nav>
+
+    <main style="min-height:80vh; padding-top:80px;">
+      <h1 style="text-align:center; margin-bottom:24px">Interface prototype — /computer</h1>
+
+      <section class="interface-grid">
+        <div class="terminal-card">
+          <div class="terminal-output" id="termOutput"></div>
+          <form class="terminal-input" id="termInput">
+            <span class="prompt">$</span>
+            <input id="cmd" type="text" placeholder="type 'help' and press Enter" autocomplete="off">
+          </form>
+        </div>
+
+        <aside class="info-cards">
+          <div class="card" tabindex="0" role="button" data-action="open-demo">
+            <h3>Demo</h3>
+            <p>Open a short demo message.</p>
+            <button class="small">Open</button>
+          </div>
+
+          <div class="card" tabindex="0" role="button" data-action="info">
+            <h3>Info</h3>
+            <p>Page info & tips.</p>
+            <button class="small">Show</button>
+          </div>
+
+          <div class="card" tabindex="0" role="button" data-action="reset">
+            <h3>Reset</h3>
+            <p>Clear terminal output.</p>
+            <button class="small">Reset</button>
+          </div>
+        </aside>
+      </section>
+
+      <section style="margin-top:28px; text-align:center; color:#ddd; font-size:13px">
+        Try commands: <code>help</code>, <code>echo hello</code>, <code>whoami</code>, <code>clear</code>
+      </section>
+    </main>
+
+    <footer style="margin-top:48px; text-align:center; color:#ccc">Prototype — static client-side demo</footer>
+  </div>
+
+  <script src="computer.js"></script>
+</body>
+</html>

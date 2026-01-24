@@ -1,0 +1,48 @@
+/* Lightweight styles specific to /computer prototype */
+.interface-grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+  align-items: start;
+}
+
+.terminal-card {
+  background: rgba(0,0,0,0.6);
+  border-radius: 8px;
+  padding: 14px;
+  color: #e6e6e6;
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+}
+
+.terminal-output {
+  flex: 1 1 auto;
+  overflow: auto;
+  font-family: Menlo, Monaco, monospace;
+  font-size: 13px;
+  padding: 8px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 6px;
+}
+
+.terminal-input {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:10px;
+}
+
+.terminal-input .prompt { color:#8cf; font-weight:700 }
+.terminal-input input { flex:1; padding:8px 10px; border-radius:6px; border:1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); color:#fff }
+
+.info-cards { display:flex; flex-direction:column; gap:12px }
+.card { background: rgba(255,255,255,0.03); padding:12px; border-radius:8px; color:#fff }
+.card h3 { margin:0 0 6px 0 }
+.card p { margin:0 0 8px 0; color:#ddd }
+.card .small { padding:6px 8px; border-radius:6px; background:#222; color:#fff; border:none }
+
+@media (max-width: 840px) {
+  .interface-grid { grid-template-columns: 1fr; }
+  .info-cards { flex-direction:row; }
+}

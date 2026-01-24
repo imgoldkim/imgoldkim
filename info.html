@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Info - My Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bubbler+One&display=swap" rel="stylesheet">
+    <script src="cursor-background.js"></script>
+</head>
+<body class="info-bg">
+    <video class="hero-video" autoplay muted loop playsinline preload="auto" aria-label="Info background video">
+        <source src="video/green.mp4" type="video/mp4">
+    </video>
+    <div class="container">
+        <div class="top-right-title"><a class="top-right-title-link" href="index.html" aria-label="Go to home">●◦∘◦Imgoldkim ●◌◌∘◦∘<span class="kr">금이다</span>∘◌∘</a></div>
+        <nav class="top-right-menu">
+            <a class="nav-link" href="info.html">Info</a>
+            <a class="nav-link" href="work.html">Work</a>
+            <a class="nav-link" href="events.html">Events</a>
+            <a class="nav-link" href="contact.html">Contact</a>
+        </nav>
+        <main style="display: flex; justify-content: center; align-items: center; min-height: 140vh;">
+            <div class="bio-container">
+                <section class="bio-section" style="text-align: center;">
+                    <p>
+                        <strong style="font-size:18pt !important; font-weight: 350 !important; font-family: 'Inconsolata', monospace !important; display: inline-block; margin-bottom: 28px !important;">∘◦◦<span style="font-size:22pt !important; font-weight: 350 !important; font-family: 'Inconsolata', monospace !important;">Bio</span>◦◌∘◦∘</strong><br><br>
+                        Gold Davin Kim is an artist based between Geneva and London, working across sound, writing, film, and performance. Their practice centres on hearing and writing as tools for exploring invisible connections between human existence, place, and systems. Through sound collection and its translation into language, image, and form, Gold investigates intersections of sensation, memory, and emotion, revealing relationships between inner perception and external reality. With a background in contemporary music and fine arts, they work with live coding and creative programming to produce real-time sound and visual compositions, using technology as a poetic and experimental tool to question authorship, temporality, and human connection.
+                    </p>
+                </section>
+                <div class="bio-image">
+                    <img src="images/imgoldkim.png" alt="ImGoldKim">
+                    <div class="bio-links">
+                        <div class="link-group">
+                            <div class="link-title">◦CV◦</div>
+                            <a href="https://docs.google.com/spreadsheets/d/1acesBIYjR3Y9l2gDSc8t2ULyowI5VkzLo3HTWo_WvYU/edit?gid=951417058#gid=951417058" target="_blank" rel="noopener noreferrer" class="link-subtitle">Spread sheet link</a>
+                        </div>
+                        <div class="link-group">
+                            <div class="link-title">◦Portfolio◦</div>
+                            <a href="https://drive.google.com/file/d/1iiPpNlLU3VpNGk0Pd2NdgTEp_Kq5ooSE/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="link-subtitle">View link</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <div class="bottom-social-icons">
+            <a href="https://www.instagram.com/thereddot.jpg/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <img src="images/instagram_icon.png" alt="Instagram" class="social-icon">
+            </a>
+            <a href="https://www.youtube.com/@ImGold" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                <img src="images/youtube.png" alt="YouTube" class="social-icon">
+            </a>
+            <a href="https://music.apple.com/ch/artist/im-gold/1435280077?l=en-GB" target="_blank" rel="noopener noreferrer" aria-label="Apple Music">
+                <img src="images/link.png" alt="Apple Music" class="social-icon">
+            </a>
+        </div>
+    </div>
+    <script>
+        // Ensure background video starts (some browsers block autoplay without a play call)
+        (function() {
+            const video = document.querySelector('.hero-video');
+            if (!video) return;
+            const tryPlay = () => video.play().catch(() => {});
+            document.addEventListener('DOMContentLoaded', tryPlay);
+            document.addEventListener('click', tryPlay, { once: true });
+        })();
+    </script>
+</body>
+</html>

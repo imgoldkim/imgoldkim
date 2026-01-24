@@ -1,29 +1,115 @@
-/* CV page background */
-.cv-bg {
-    background-image: url('images/bg1.png') !important;
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap');
+
+/* Bio page background */
+.work-bg {
+    background-image: url('images/bg6.png') !important;
     background-repeat: repeat !important;
     background-size: 150% !important;
     background-position: center center;
 }
-.artwork-bg {
-    background-image: url('images/background14.png') !important;
+.events-bg {
+    background-image: url('images/bg8.png') !important;
     background-repeat: repeat !important;
     background-size: 150% !important;
     background-position: center center;
 }
-.poster-bg {
-    background-image: url('images/background5.png') !important;
-    background-repeat: repeat !important;
-    background-size: 150% !important;
-    background-position: center center;
+.info-bg {
+    background: #000 !important;
+    background-image: none !important;
 }
-.bio-bg {
-    background-image: url('images/background5.png') !important;
-    background-repeat: repeat !important;
-    background-size: 150% !important;
-    background-position: center center;
+.info-bg::after,
+.info-bg-scrolled::after {
+    display: none !important;
 }
-.music-bg {
+.info-bg .top-right-title {
+    color: #fffef1 !important;
+}
+.info-bg .top-right-title a {
+    color: #fffef1 !important;
+}
+.info-bg .top-right-menu {
+    color: #fffef1 !important;
+}
+.info-bg .nav-link {
+    color: #fffef1 !important;
+}
+.info-bg main:first-of-type {
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    padding: 180px 20px 60px 65px;
+    width: 100%;
+}
+.info-bg .bio-container {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    max-width: 1200px;
+}
+.info-bg .bio-section {
+    text-align: left !important;
+    max-width: 500px;
+    margin-top: 15px;
+    margin-left: -140px;
+    padding-left: 0;
+    flex-shrink: 0;
+}
+.info-bg .bio-image {
+    flex-shrink: 0;
+    margin-left: 350px;
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.info-bg .bio-image img {
+    max-width: 310px;
+    margin-top: 110px;
+    margin-left: -20px;
+    height: auto;
+    display: block;
+}
+.info-bg .bio-links {
+    display: flex;
+    gap: 30px;
+    margin-top: 50px;
+    margin-left: 0;
+    justify-content: center;
+}
+.info-bg .link-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.info-bg .link-title {
+    font-family: "Inconsolata", monospace !important;
+    font-size: 22pt !important;
+    color: #ffffe2 !important;
+    font-weight: 350 !important;
+    margin-bottom: 2px;
+}
+.info-bg .link-subtitle {
+    font-family: "Inconsolata", monospace !important;
+    font-size: 14pt !important;
+    color: #ffffe2 !important;
+    font-weight: 200 !important;
+    margin-top:-4px;
+    text-decoration: none;
+}
+.info-bg .link-subtitle:hover {
+    text-decoration: underline;
+}
+.info-bg .bio-section,
+.info-bg .bio-section * {
+    font-family: "Inconsolata", monospace !important;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-variation-settings:
+        "wdth" 150;
+    line-height: 1.4;
+    font-size: 16pt !important;
+    color: #ffffe2 !important;
+}
+.contact-bg {
     background-image: url('images/background5.png') !important;
     background-repeat: repeat !important;
     background-size: 150% !important;
@@ -34,14 +120,14 @@ html, body {
     height: 100%;
     min-height: 100vh;
     margin: 0;
-    padding: 0;
+    padding: 10;
 }
 /* Bottom navigation menu styles */
 .bottom-menu {
     display: flex;
     justify-content: center;
     gap: 16px;
-    margin-top: 20px;
+    margin-top: 40px;
 }
 @font-face {
     font-family: 'Diatype';
@@ -75,10 +161,7 @@ body {
     font-family: 'Diatype', Arial, sans-serif;
     font-weight: 900;
     line-height: 1.6;
-    background-image: url('images/background1.png');
-    background-repeat: repeat;
-    background-size: 150%;
-    background-position: center center;
+    background: #000;
     cursor: url('images/cursor.png'), auto;
 }
 
@@ -89,10 +172,8 @@ body {
 
 /* Animated background for main page */
 body.main-bg {
-    background-image: url('images/background1.png');
-    background-repeat: repeat;
-    background-size: 150%;
-    background-position: center center;
+    background: #000;
+    background-image: none;
 }
 
 .container {
@@ -100,6 +181,8 @@ body.main-bg {
     margin: 0 auto;
     padding: 20px;
     background: transparent !important;
+    position: relative;
+    z-index: 1; /* keep content above video */
 }
 
 header {
@@ -130,6 +213,17 @@ h1, h2, h3, h4, h5, h6 {
     transition: all 0.3s ease;
 }
 
+.hero-video {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: 0; /* sit behind content but above page background */
+    background: #000;
+    pointer-events: none; /* allow clicks to reach overlayed elements */
+}
+
 @keyframes float {
     0% {
         transform: translateY(0px);
@@ -153,19 +247,59 @@ footer {
     color: blue;
 }
 
-.top-right-menu {
-    position: absolute;
+.top-right-menu {  
+    position: fixed;
     top: 80px;
-    right: 120px; /* moved left from 32px */
+    right: 140px;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 10.5pt;
     color: #222;
-    background: background9.png;
-    z-index: 100;
     display: flex;
-    gap: 8px;
+    gap: 27px;
+    z-index: 100;
 }
 
+.top-right-title {
+    position: fixed;
+    top: 80px;
+    left: 65px; /* moved 200px further left from previous 120px */
+    font-family: 'Bubbler One', 'Noto Sans KR', sans-serif;
+    font-size: 16pt;
+    font-weight: 400;
+    color: #e0dbef;
+    line-height: 24px; /* align with 24px icon height */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    z-index: 100;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    cursor: pointer;
+}
+
+.top-right-title .kr {
+    font-size: 14pt;
+}
+
+.top-right-title-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.nav-link {
+    font-family: "Bubbler One", sans-serif;
+    font-size: 16pt;
+    font-weight: 400;
+    color: #e0dbef;
+    text-decoration: none;
+    transition: opacity 0.7s ease;
+    cursor: pointer;
+    letter-spacing: 2.3px;
+}
+
+.nav-link:hover {
+    opacity: 0.7;
+}
 .nav-btn {
     font-family: 'Diatype', Arial, sans-serif;
     font-size: 10pt !important; /* force all buttons to same size */
@@ -247,7 +381,7 @@ footer {
 .gallery {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 96px; /* 사진 사이 간격 더 넓힘 */
+    gap: 90px; /* 사진 사이 간격 더 넓힘 */
     justify-content: center;
     margin-top: 240px;
     padding-left: 64px;
@@ -265,6 +399,11 @@ footer {
 
 .bio-section,
 .bio-section * {
+    font-family: "Inconsolata", monospace;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-variation-settings:
+        "wdth" 100;
     color: #FFFAA0; /* brighter light yellow */
     font-size: 12pt;
 }
@@ -273,4 +412,25 @@ img {
     pointer-events: none;
     user-select: none;
     -webkit-user-drag: none;
+}
+.bottom-social-icons {
+    position: absolute;
+    bottom: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 14px;
+    z-index: 100;
+}
+
+.social-icon {
+    height: 22px;
+    width: auto;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+    pointer-events: auto;
+}
+
+.social-icon:hover {
+    opacity: 1;
 }
