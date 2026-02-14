@@ -3,31 +3,305 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Work - My Portfolio</title>
+    <title>Works - My Portfolio</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bubbler+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500&display=swap" rel="stylesheet">
     <script src="cursor-background.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        // mark when YT API initialized
+        window._ytApiLoaded = false;
+        function onYouTubeIframeAPIReady() { window._ytApiLoaded = true; }
+    </script>
 </head>
 <body class="work-bg">
     <div class="container">
         <div class="top-right-title"><a class="top-right-title-link" href="index.html" aria-label="Go to home">●◦∘◦Imgoldkim ●◌◌∘◦∘<span class="kr">금이다</span>∘◌∘</a></div>
         <nav class="top-right-menu">
             <a class="nav-link" href="info.html">Info</a>
-            <a class="nav-link" href="work.html">Work</a>
+            <a class="nav-link" href="work.html">Works</a>
             <a class="nav-link" href="events.html">Events</a>
             <a class="nav-link" href="contact.html">Contact</a>
         </nav>
-        <main>
-            <section class="artwork-section">
-                <div class="gallery">
-                </div>
+        <main class="works-main">
+            <section class="works-list" aria-label="Works list">
+                <button class="work-item" data-type="image" data-src="artwork/waterofconnections2.png" aria-pressed="false">Water of Connections (2026)</button>
+                <button class="work-item" data-type="video" data-src="https://www.youtube.com/embed/o0etD4_j5FU?autoplay=1&mute=1&controls=0&loop=1&playlist=o0etD4_j5FU" aria-pressed="false">Listen, before i go (2026)</button>
+                <button class="work-item" data-type="video" data-src="https://www.youtube.com/embed/OJVuVPa5VXI?autoplay=1&mute=1&controls=0&loop=1&playlist=OJVuVPa5VXI" aria-pressed="false">Wintersound (2025)</button>
+                <button class="work-item" data-type="video" data-src="https://www.youtube.com/embed/2HaWDKYATSE?autoplay=1&mute=1&controls=0&loop=1&playlist=2HaWDKYATSE" data-seek="0" aria-pressed="false">That Sounds Exciting ! (2025)</button>
+                <button class="work-item" data-type="video" data-src="https://www.youtube.com/embed/YJkMWP6eaLc?autoplay=1&mute=1&controls=0&loop=1&playlist=YJkMWP6eaLc" aria-pressed="false">Moon (2025)</button>
+                <button class="work-item" data-type="video" data-src="https://www.youtube.com/embed/jU0HJXKLajY?autoplay=1&mute=1&controls=0&loop=1&playlist=jU0HJXKLajY" aria-pressed="false">Floating around (2025)</button>
+                <button class="work-item" data-type="image" data-src="artwork/mbssjapan.png" aria-pressed="false">Move Body, See Sound Japan (2025)</button>
+                <button class="work-item" data-type="video" data-src="https://www.youtube.com/embed/cjoHDps1jA4?autoplay=1&mute=1&controls=0&loop=1&playlist=cjoHDps1jA4" data-seek="0" aria-pressed="false">Echoes of Connection (2025)</button>
+                <button class="work-item" data-type="video" data-src="https://www.youtube.com/embed/Q9UJWHLlNDk?autoplay=1&mute=1&controls=0&loop=1&playlist=Q9UJWHLlNDk" aria-pressed="false">London Victoria Line (2025)</button>
+                <button class="work-item" data-type="image" data-src="artwork/mbssgeneva.png" aria-pressed="false">Move Body, See Sound (2025)</button>
+                <button class="work-item" data-type="image" data-src="artwork/soundwalking.png" aria-pressed="false">Soundwalking in London (2025)</button>
+                <button class="work-item" data-type="video" data-src="https://www.youtube.com/embed/NR5rL74F2cM?autoplay=1&mute=1&controls=0&loop=1&playlist=NR5rL74F2cM" aria-pressed="false">About L (2025)</button>
+                <button class="work-item" data-type="video" data-src="https://www.youtube.com/embed/gX8Jz0Ar2C0?autoplay=1&mute=1&controls=0&loop=1&playlist=gX8Jz0Ar2C0" aria-pressed="false">Daydreaming (2024)</button>
             </section>
         </main>
+        <div class="work-flyout" id="workFlyout" hidden></div>
+        <div id="ytPreload" style="position:absolute;width:1px;height:1px;overflow:hidden;left:-9999px;top:-9999px"></div>
         <footer>
         </footer>
+        <script>
+            // Load YouTube IFrame API if not already loaded
+            (function loadYouTubeAPI(){
+                if (window.YT && window.YT.Player) return;
+                const tag = document.createElement('script');
+                tag.src = 'https://www.youtube.com/iframe_api';
+                document.head.appendChild(tag);
+            })();
+
+            const workItems = document.querySelectorAll('.work-item');
+            const flyout = document.getElementById('workFlyout');
+            let activePlayer = null;
+            let activePlayerId = null;
+            let stopTimer = null;
+
+            function parseVideoId(src) {
+                if (!src) return null;
+                try {
+                    // support embed urls and full watch urls
+                    if (src.includes('/embed/')) {
+                        const m = src.match(/\/embed\/([a-zA-Z0-9_-]{7,})/);
+                        return m ? m[1] : null;
+                    }
+                    const url = new URL(src);
+                    return url.searchParams.get('v');
+                } catch (e) {
+                    return null;
+                }
+            }
+
+            // Warm a hidden player to reduce first-hover latency
+            function warmYouTubePlayer() {
+                if (!window._ytApiLoaded) {
+                    // wait for YT API ready
+                    const t = setInterval(() => {
+                        if (window._ytApiLoaded) {
+                            clearInterval(t);
+                            warmYouTubePlayer();
+                        }
+                    }, 150);
+                    return;
+                }
+
+                try {
+                        // Prefer warming 'London Victoria Line' if present, otherwise first video
+                        const preferred = document.querySelector('.work-item[data-type="video"][data-src*="Q9UJWHLlNDk"]');
+                        const first = preferred || document.querySelector('.work-item[data-type="video"][data-src]');
+                        if (!first) return;
+                        const src = first.dataset.src;
+                        const vid = parseVideoId(src);
+                    if (!vid) return;
+
+                    // create a hidden warm player that cues the midpoint but does not autoplay
+                    if (window._warmPlayer) return; // already warmed
+                    window._warmPlayer = new YT.Player('ytPreload', {
+                        videoId: vid,
+                        playerVars: { controls: 0, autoplay: 0, mute: 1, modestbranding: 1, rel: 0, playsinline: 1 },
+                        events: {
+                            onReady: function(ev) {
+                                try {
+                                    const p = ev.target;
+                                    const d = p.getDuration() || 0;
+                                    const start = Math.max(0, Math.floor(d / 2));
+                                    if (d > 0) p.cueVideoById(start ? {videoId: vid, startSeconds: start} : vid);
+                                    else p.cueVideoById(vid);
+                                } catch (e) {}
+                            }
+                        }
+                    });
+                } catch (e) {}
+            }
+
+            // attempt to warm quickly
+            warmYouTubePlayer();
+
+            function createYouTubePlayer(containerId, videoId, startSeconds) {
+                return new YT.Player(containerId, {
+                    videoId: videoId,
+                    playerVars: {
+                        controls: 0,
+                        autoplay: 0,
+                        mute: 1,
+                        rel: 0,
+                        modestbranding: 1,
+                        playsinline: 1
+                    },
+                    events: {
+                        onReady: function(event) {
+                            const player = event.target;
+                            const duration = player.getDuration() || 0;
+                            let start = null;
+                            if (typeof startSeconds === 'number' && !isNaN(startSeconds)) {
+                                start = Math.max(0, Math.floor(startSeconds));
+                            } else if (duration > 0) {
+                                start = Math.max(0, Math.floor(duration / 2));
+                            }
+
+                            // seek and play then stop after 15s
+                            try {
+                                if (start !== null) player.seekTo(start, true);
+                            } catch (e) {}
+                            player.playVideo();
+                            if (stopTimer) clearTimeout(stopTimer);
+                            stopTimer = setTimeout(() => {
+                                try { player.pauseVideo(); } catch (e) {}
+                            }, 15000);
+                        }
+                    }
+                });
+            }
+
+            function showFlyout(btn) {
+                const type = btn.dataset.type;
+                const src = btn.dataset.src;
+                const rect = btn.getBoundingClientRect();
+                flyout.innerHTML = '';
+
+                if (type === 'image' && src) {
+                    const img = document.createElement('img');
+                    img.src = src;
+                    img.alt = btn.textContent.trim();
+                    img.style.width = '800px';
+                    img.style.height = 'auto';
+                    img.style.display = 'block';
+                    img.style.maxWidth = '100%';
+                    flyout.appendChild(img);
+                    // ensure flyout is in DOM for measurement
+                    flyout.style.visibility = 'hidden';
+                    flyout.hidden = false;
+                } else if (type === 'video' && src) {
+                    const videoId = parseVideoId(src);
+                    const containerId = 'ytplayer-' + (videoId || 'anon') + '-' + Date.now();
+                    const holder = document.createElement('div');
+                    holder.id = containerId;
+                    holder.style.width = '800px';
+                    holder.style.height = '450px';
+                    flyout.appendChild(holder);
+
+                    // Make flyout invisible but in DOM to measure size, then position
+                    flyout.style.visibility = 'hidden';
+                    flyout.hidden = false;
+
+                    // create player once API available
+                    const initPlayer = () => {
+                        if (typeof YT === 'undefined' || !YT.Player) {
+                            setTimeout(initPlayer, 200);
+                            return;
+                        }
+                        // destroy previous
+                        if (activePlayer) {
+                            try { activePlayer.destroy(); } catch (e) {}
+                            activePlayer = null;
+                            activePlayerId = null;
+                        }
+                        // respect optional data-seek on the button
+                        const ds = btn.dataset.seek;
+                        const startSec = (ds !== undefined && ds !== '') ? parseInt(ds, 10) : null;
+                        activePlayer = createYouTubePlayer(containerId, videoId, startSec);
+                        activePlayerId = containerId;
+                    };
+                    initPlayer();
+                } else {
+                    flyout.textContent = `${btn.textContent.trim()} preview coming soon`;
+                    flyout.style.visibility = 'hidden';
+                    flyout.hidden = false;
+                }
+
+                // Make flyout visible after we've measured and positioned
+                const flyoutRect = flyout.getBoundingClientRect();
+                const flyoutHeight = flyoutRect.height;
+                const flyoutWidth = flyoutRect.width;
+
+                const margin = 12;
+                let topPos = rect.top + window.scrollY;
+                const maxBottom = window.scrollY + window.innerHeight - 8;
+                if (topPos + flyoutHeight > maxBottom) {
+                    topPos = Math.max(window.scrollY + 8, maxBottom - flyoutHeight);
+                }
+                if (topPos < window.scrollY + 8) {
+                    topPos = rect.bottom + window.scrollY + margin;
+                }
+
+                let leftPos = rect.left + window.scrollX;
+                const maxRight = window.scrollX + window.innerWidth - 8;
+                if (leftPos + flyoutWidth > maxRight) {
+                    leftPos = Math.max(8 + window.scrollX, maxRight - flyoutWidth);
+                }
+                if (leftPos < 8 + window.scrollX) leftPos = 8 + window.scrollX;
+
+                flyout.style.top = `${topPos}px`;
+                flyout.style.left = `${leftPos}px`;
+                flyout.style.visibility = 'visible';
+            }
+
+            function hideFlyout() {
+                flyout.hidden = true;
+                flyout.innerHTML = '';
+                if (stopTimer) { clearTimeout(stopTimer); stopTimer = null; }
+                if (activePlayer) {
+                    try { activePlayer.destroy(); } catch (e) {}
+                    activePlayer = null;
+                    activePlayerId = null;
+                }
+            }
+
+            function positionFlyoutForMouse(evt, btn) {
+                const rect = btn.getBoundingClientRect();
+                const flyoutRect = flyout.getBoundingClientRect();
+                const margin = 12;
+
+                // Top aligned to button top (same logic as showFlyout)
+                let topPos = rect.top + window.scrollY;
+                const maxBottom = window.scrollY + window.innerHeight - 8;
+                if (topPos + flyoutRect.height > maxBottom) {
+                    topPos = Math.max(window.scrollY + 8, maxBottom - flyoutRect.height);
+                }
+                if (topPos < window.scrollY + 8) {
+                    topPos = rect.bottom + window.scrollY + margin;
+                }
+
+                // Horizontal position: center the flyout on the mouse X
+                let leftPos = evt.clientX + window.scrollX - (flyoutRect.width / 2);
+                const maxRight = window.scrollX + window.innerWidth - 8;
+                if (leftPos + flyoutRect.width > maxRight) {
+                    leftPos = Math.max(8 + window.scrollX, maxRight - flyoutRect.width);
+                }
+                if (leftPos < 8 + window.scrollX) leftPos = 8 + window.scrollX;
+
+                flyout.style.top = `${topPos}px`;
+                flyout.style.left = `${leftPos}px`;
+            }
+
+            workItems.forEach(btn => {
+                let moveHandler = null;
+
+                btn.addEventListener('mouseenter', (e) => {
+                    showFlyout(btn);
+                    moveHandler = (ev) => positionFlyoutForMouse(ev, btn);
+                    document.addEventListener('mousemove', moveHandler);
+                });
+
+                btn.addEventListener('mouseleave', () => {
+                    hideFlyout();
+                    if (moveHandler) {
+                        document.removeEventListener('mousemove', moveHandler);
+                        moveHandler = null;
+                    }
+                });
+
+                // keyboard focus/blur keep existing behavior
+                btn.addEventListener('focus', () => showFlyout(btn));
+                btn.addEventListener('blur', hideFlyout);
+            });
+        </script>
     </div>
 </body>
 </html>

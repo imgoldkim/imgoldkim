@@ -16,16 +16,210 @@
         <div class="top-right-title"><a class="top-right-title-link" href="index.html" aria-label="Go to home">●◦∘◦Imgoldkim ●◌◌∘◦∘<span class="kr">금이다</span>∘◌∘</a></div>
         <nav class="top-right-menu">
             <a class="nav-link" href="info.html">Info</a>
-            <a class="nav-link" href="work.html">Work</a>
+            <a class="nav-link" href="work.html">Works</a>
             <a class="nav-link" href="events.html">Events</a>
             <a class="nav-link" href="contact.html">Contact</a>
         </nav>
-        <main>
-            <section class="music-section">
-            </section>
-        </main>
-        <footer>
-        </footer>
     </div>
+
+    <main class="contact-main">
+        <section class="contact-section">
+            <div class="contact-card" role="form">
+                <h1 class="contact-title">Contact</h1>
+                <form class="contact-form" id="contactForm" aria-label="Send a message">
+                    <div class="form-row two-col">
+                        <label class="form-field">
+                            <span>First name</span>
+                            <input type="text" name="firstName" autocomplete="given-name" required>
+                        </label>
+                        <label class="form-field">
+                            <span>Last name</span>
+                            <input type="text" name="lastName" autocomplete="family-name" required>
+                        </label>
+                    </div>
+                    <div class="form-row">
+                        <label class="form-field">
+                            <span>Email</span>
+                            <input type="email" name="email" autocomplete="email" required>
+                        </label>
+                    </div>
+                    <div class="form-row">
+                        <label class="form-field">
+                            <span>Subject</span>
+                            <input type="text" name="subject" autocomplete="on" required>
+                        </label>
+                    </div>
+                    <div class="form-row">
+                        <label class="form-field">
+                            <span>Message</span>
+                            <textarea name="message" rows="5" required></textarea>
+                        </label>
+                    </div>
+                    <button class="contact-submit" type="submit">Submit</button>
+                </form>
+            </div>
+        </section>
+
+        <div class="contact-right">
+            <div class="welcome-message">
+                <h2>●◌◌∘◦∘ welcome to my island ●◌◌∘◦∘</h2>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="contact-footer">
+            <div class="footer-email">
+                <a href="mailto:itsgold2018@gmail.com">itsgold2018@gmail.com</a>
+            </div>
+            <div class="footer-social">
+                <a href="https://www.instagram.com/thereddot.jpg/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <img src="images/instagram_icon.png" alt="Instagram" class="footer-icon">
+                </a>
+                <a href="https://www.youtube.com/@ImGold" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                    <img src="images/youtube.png" alt="YouTube" class="footer-icon">
+                </a>
+                <a href="https://music.apple.com/ch/artist/im-gold/1435280077?l=en-GB" target="_blank" rel="noopener noreferrer" aria-label="Apple Music">
+                    <img src="images/link.png" alt="Apple Music" class="footer-icon">
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // EmailJS setup
+        emailjs.init("YOUR_PUBLIC_KEY"); // You'll need to get this from EmailJS
+        
+        // Contact form handler
+        const contactForm = document.getElementById('contactForm');
+        
+        if (contactForm) {
+            contactForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const formData = {
+                    firstName: contactForm.querySelector('[name="firstName"]').value,
+                    lastName: contactForm.querySelector('[name="lastName"]').value,
+                    email: contactForm.querySelector('[name="email"]').value,
+                    subject: contactForm.querySelector('[name="subject"]').value,
+                    message: contactForm.querySelector('[name="message"]').value
+                };
+
+                try {
+                    // Send email using EmailJS
+                    await emailjs.send('service_YOUR_SERVICE_ID', 'template_YOUR_TEMPLATE_ID', {
+                        to_email: 'imgoldkim@proton.me',
+                        from_name: formData.firstName + ' ' + formData.lastName,
+                        from_email: formData.email,
+                        subject: formData.subject,
+                        message: formData.message
+                    });
+
+                    // Show success message
+                    alert(`Thank you, ${formData.firstName}! Your message has been sent to imgoldkim@proton.me`);
+                    
+                    // Clear form
+                    contactForm.reset();
+                } catch (error) {
+                    console.error('Error sending email:', error);
+                    alert('There was an error sending your message. Please try again.');
+                }
+            });
+        }
+    </script>
+
+    <!-- EmailJS Library -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/index.min.js"></script>
+
+    <!-- Audio Player Script -->
+    <script>
+        // Simple Web Audio API player
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        let oscillator = null;
+        let gainNode = null;
+        let analyser = null;
+        let animationId = null;
+
+        const playBtn = document.getElementById('playBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const canvas = document.getElementById('audioCanvas');
+        const canvasCtx = canvas.getContext('2d');
+
+        // Initialize audio nodes
+        gainNode = audioContext.createGain();
+        gainNode.gain.value = 0.3;
+        gainNode.connect(audioContext.destination);
+
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = 256;
+        gainNode.connect(analyser);
+
+        // Play button
+        playBtn.addEventListener('click', () => {
+            if (oscillator === null) {
+                oscillator = audioContext.createOscillator();
+                oscillator.type = 'sine';
+                oscillator.frequency.value = 440;
+                oscillator.connect(gainNode);
+                oscillator.start();
+                playBtn.style.background = '#fff';
+                playBtn.style.color = '#000';
+                animate();
+            }
+        });
+
+        // Pause button
+        pauseBtn.addEventListener('click', () => {
+            if (oscillator) {
+                oscillator.stop();
+                oscillator = null;
+                playBtn.style.background = 'transparent';
+                playBtn.style.color = '#fff';
+                cancelAnimationFrame(animationId);
+            }
+        });
+
+        // Stop button
+        stopBtn.addEventListener('click', () => {
+            if (oscillator) {
+                oscillator.stop();
+                oscillator = null;
+                playBtn.style.background = 'transparent';
+                playBtn.style.color = '#fff';
+                canvasCtx.fillStyle = '#000';
+                canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+                cancelAnimationFrame(animationId);
+            }
+        });
+
+        // Volume control
+        volumeSlider.addEventListener('input', (e) => {
+            gainNode.gain.value = e.target.value / 100;
+        });
+
+        // Visualizer
+        function animate() {
+            animationId = requestAnimationFrame(animate);
+            
+            const dataArray = new Uint8Array(analyser.frequencyBinCount);
+            analyser.getByteFrequencyData(dataArray);
+
+            canvasCtx.fillStyle = '#000';
+            canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const barWidth = (canvas.width / dataArray.length) * 2.5;
+            let barHeight;
+            let x = 0;
+
+            canvasCtx.fillStyle = '#00ff00';
+            for (let i = 0; i < dataArray.length; i++) {
+                barHeight = (dataArray[i] / 255) * canvas.height;
+                canvasCtx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+                x += barWidth + 1;
+            }
+        }
+    </script>
 </body>
 </html>
