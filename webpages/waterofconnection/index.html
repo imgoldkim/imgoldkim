@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water of Connection (2026)</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bubbler+One&display=swap" rel="stylesheet">
+    <script src="../../cursor-background.js"></script>
+</head>
+<body class="woc-bg">
+    <!-- floating video: hidden by default, shown in bottom-right when last still is visible -->
+    <div class="woc-video-float" aria-hidden="true">
+        <iframe src="https://www.youtube.com/embed/r681E6kw0rs?rel=0&amp;showinfo=0" title="Water of Connection video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <!-- global marquee fixed to viewport so it persists during scrolling -->
+    <div class="woc-marquee-wrapper" aria-hidden="false">
+        <div class="woc-marquee" id="wocMarquee">𓏸𓈒𓈒𓆟𓆝𓆝&nbsp;𓆟&nbsp;𓆞&nbsp;·𓂃&nbsp;𓈒𓏸&nbsp;&nbsp;Water of Connections&nbsp;&nbsp;&nbsp;𓏸𓈒𓈒𓆟𓆝𓆝&nbsp;𓆟&nbsp;𓆞&nbsp;·𓂃&nbsp;𓈒𓏸</div>
+    </div>
+    <div class="container woc-container">
+        <div class="top-right-title"><a class="top-right-title-link" href="../../index.html" aria-label="Go to home">●◦∘◦Imgoldkim ●◌◌∘◦∘<span class="kr">금이다</span>∘◌∘</a></div>
+        <nav class="top-right-menu">
+            <a class="nav-link" href="../../info.html">Info</a>
+            <a class="nav-link" href="../../work.html">Works</a>
+            <a class="nav-link" href="../../events.html">Events</a>
+            <a class="nav-link" href="../../contact.html">Contact</a>
+        </nav>
+
+        <main class="woc-main">
+            <section class="woc-section">
+                <div class="woc-image-grid">
+                    <div class="woc-image" role="img" aria-label="Water of Connection still 1" style="background-image: url('1.png')">
+                        <div class="woc-title-top">WATER OF CONNECTIONS</div>
+                        <!-- marquee removed from inside image to avoid duplicate IDs/overlap; global fixed marquee used instead -->
+                    </div>
+                    <div class="woc-image" role="img" aria-label="Water of Connection still 2" style="background-image: url('2.png')"></div>
+                    <div class="woc-image" role="img" aria-label="Water of Connection still 3" style="background-image: url('3.png')"></div>
+                    <div class="woc-image" role="img" aria-label="Water of Connection still 4" style="background-image: url('4.png')"></div>
+                    <div class="woc-image" role="img" aria-label="Water of Connection still 5" style="background-image: url('5.png')"></div>
+                    <div class="woc-image" role="img" aria-label="Water of Connection still 6" style="background-image: url('6.png')"></div>
+                    <div class="woc-image" role="img" aria-label="Water of Connection still 7" style="background-image: url('7.png')"></div>
+                    <!-- inline video removed; now shown as a small overlay at the top -->
+                    <div class="woc-image" role="img" aria-label="Water of Connection still 8" style="background-image: url('8.png')"></div>
+                </div>
+                <a class="woc-back" href="../../work.html">Back to Works</a>
+                <div class="bottom-social-icons" aria-hidden="true">
+                    <a href="https://www.instagram.com/thereddot.jpg/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                        <img src="../../images/instagram_icon.png" alt="Instagram" class="social-icon">
+                    </a>
+                    <a href="https://www.youtube.com/@ImGold" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                        <img src="../../images/youtube.png" alt="YouTube" class="social-icon">
+                    </a>
+                    <a href="https://music.apple.com/ch/artist/im-gold/1435280077?l=en-GB" target="_blank" rel="noopener noreferrer" aria-label="Apple Music">
+                        <img src="../../images/link.png" alt="Apple Music" class="social-icon">
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+    <!-- Lightbox overlay -->
+    <div id="wocOverlay" style="display:none;position:fixed;inset:0;background:rgba(3,6,8,0.88);z-index:9999;align-items:center;justify-content:center;padding:24px;">
+        <div id="wocOverlayInner" style="max-width:1200px;max-height:92vh;width:100%;display:flex;align-items:center;justify-content:center;position:relative;">
+            <!-- media injected here -->
+            <button id="wocOverlayClose" aria-label="Close" style="position:absolute;top:12px;right:12px;background:transparent;border:0;color:#fff;font-family:Inconsolata,monospace;font-size:18pt;cursor:pointer;">✕</button>
+        </div>
+    </div>
+
+    <script>
+        (function(){
+            const overlay = document.getElementById('wocOverlay');
+            const inner = document.getElementById('wocOverlayInner');
+            const btnClose = document.getElementById('wocOverlayClose');
+
+            function openImage(src, alt) {
+                inner.querySelectorAll('.woc-overlay-media').forEach(n=>n.remove());
+                const img = document.createElement('img');
+                img.className = 'woc-overlay-media';
+                img.src = src;
+                img.alt = alt || '';
+                img.style.maxWidth = '100%';
+                img.style.maxHeight = '92vh';
+                img.style.objectFit = 'contain';
+                img.style.borderRadius = '6px';
+                inner.insertBefore(img, btnClose);
+                overlay.style.display = 'flex';
+            }
+
+            function openVideo(src) {
+                inner.querySelectorAll('.woc-overlay-media').forEach(n=>n.remove());
+                const v = document.createElement('video');
+                v.className = 'woc-overlay-media';
+                v.src = src;
+                v.controls = true;
+                v.autoplay = true;
+                v.playsInline = true;
+                v.style.maxWidth = '100%';
+                v.style.maxHeight = '92vh';
+                v.style.borderRadius = '6px';
+                inner.insertBefore(v, btnClose);
+                overlay.style.display = 'flex';
+            }
+
+            function closeOverlay(){
+                overlay.style.display = 'none';
+                inner.querySelectorAll('.woc-overlay-media').forEach(n=>{
+                    try { if(n.tagName === 'VIDEO') n.pause(); } catch(e){}
+                    n.remove();
+                });
+            }
+
+            // wire up images (background-image on divs)
+            document.querySelectorAll('.woc-image').forEach(el => {
+                el.style.cursor = 'zoom-in';
+                el.addEventListener('click', (e) => {
+                    const bg = window.getComputedStyle(el).backgroundImage || '';
+                    const m = bg.match(/url\(["']?(.*?)["']?\)/);
+                    const src = m ? m[1] : null;
+                    const alt = el.getAttribute('aria-label') || '';
+                    if (src) openImage(src, alt);
+                });
+            });
+
+            // wire up inline videos in the grid
+            document.querySelectorAll('.woc-video').forEach(v => {
+                v.style.cursor = 'pointer';
+                v.addEventListener('click', (e) => {
+                    // open source if available otherwise src attribute
+                    const s = (v.querySelector('source') && v.querySelector('source').src) || v.currentSrc || v.src;
+                    if (s) openVideo(s);
+                });
+            });
+
+            // show floating video only while images 2.png through 6.png are visible
+            const floatVid = document.querySelector('.woc-video-float');
+            const images = Array.from(document.querySelectorAll('.woc-image'));
+            if (floatVid && images.length) {
+                const backBtn = document.querySelector('.woc-back');
+                const bottomSocial = document.querySelector('.bottom-social-icons');
+                const io = new IntersectionObserver((entries)=>{
+                    entries.forEach(en=>{
+                        const idx = images.indexOf(en.target);
+                        // images are zero-based: idx 0==1.png, idx 1==2.png ... idx 7==8.png
+                        // floating video visible only for 2.png..6.png (idx 1..5)
+                        if (en.isIntersecting && idx >= 1 && idx <= 5) {
+                            floatVid.classList.add('visible');
+                            floatVid.setAttribute('aria-hidden','false');
+                        } else if (en.isIntersecting) {
+                            floatVid.classList.remove('visible');
+                            floatVid.setAttribute('aria-hidden','true');
+                        }
+
+                        // Back button: show starting from 5.png (idx >=4)
+                        if (backBtn) {
+                            if (en.isIntersecting && idx >= 4) backBtn.classList.add('visible');
+                            if (en.isIntersecting && idx < 4) backBtn.classList.remove('visible');
+                        }
+
+                        // bottom social icons: show when last image is intersecting
+                        if (bottomSocial) {
+                            if (en.isIntersecting && idx === images.length - 1) bottomSocial.classList.add('visible');
+                            if (en.isIntersecting && idx !== images.length - 1) bottomSocial.classList.remove('visible');
+                        }
+                    });
+                }, { threshold: 0.5 });
+                images.forEach(img => io.observe(img));
+            }
+
+            btnClose.addEventListener('click', closeOverlay);
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) closeOverlay();
+            });
+            document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closeOverlay(); });
+        })();
+        // marquee: wrap characters so we can stagger wave delays
+        (function(){
+            try {
+                const m = document.getElementById('wocMarquee');
+                if (!m) return;
+                const txt = m.textContent || '';
+                m.textContent = '';
+                Array.from(txt).forEach((ch, i) => {
+                    const sp = document.createElement('span');
+                    sp.textContent = ch;
+                    sp.style.setProperty('--i', i);
+                    m.appendChild(sp);
+                });
+                // duplicate content with a gap to avoid overlapping when looping
+                const gap = document.createElement('span');
+                gap.className = 'marquee-gap';
+                gap.style.display = 'inline-block';
+                gap.style.width = '160px';
+                m.appendChild(gap);
+                // clone the existing spans (excluding the gap) and append
+                const clones = Array.from(m.querySelectorAll('span')).filter(s => !s.classList.contains('marquee-gap')).map(s => s.cloneNode(true));
+                clones.forEach((c, idx) => {
+                    const prev = parseFloat(c.style.getPropertyValue('--i') || '0');
+                    c.style.setProperty('--i', prev + (txt.length + 1));
+                    m.appendChild(c);
+                });
+            } catch (e) {}
+        })();
+    </script>
+        <script>
+        (function(){
+            // Ensure nav 'Info' always navigates to the page even if other handlers prevent default
+            document.addEventListener('click', function(ev){
+                try {
+                    const a = ev.target.closest && ev.target.closest('a.nav-link[href$="../../info.html"]');
+                    if (!a) return;
+                    if (ev.defaultPrevented) {
+                        ev.stopImmediatePropagation();
+                        window.location.href = a.getAttribute('href');
+                    }
+                } catch (e) {}
+            }, true);
+        })();
+        </script>
+    
+</body>
+</html>

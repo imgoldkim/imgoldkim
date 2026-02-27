@@ -114,8 +114,20 @@ html, body {
     height: 100%;
     min-height: 100vh;
     margin: 0;
-    padding: 10;
+    padding: 0;
 }
+
+/* Force page and containers to black to avoid any white gaps */
+html, body, .container, .woc-container, footer {
+    background: #000 !important;
+    color: #fff !important;
+}
+
+/* remove any default margins that can reveal the page background */
+body, html { margin: 0; padding: 0; }
+
+/* ensure footer doesn't add unexpected height or white background */
+footer { background: #000 !important; margin: 0; padding: 0; }
 /* Bottom navigation menu styles */
 .bottom-menu {
     display: flex;
@@ -647,6 +659,560 @@ img {
     background: #fff;
     cursor: pointer;
     border: 1px solid #fff;
+}
+
+/* Water of Connection page */
+.woc-bg {
+    background: none !important;
+    background-image: none !important;
+    color: inherit;
+}
+
+.woc-bg::before,
+.woc-bg::after {
+    display: none !important;
+}
+
+.woc-bg::before {
+    top: -120px;
+    left: -140px;
+    background: #2f8f9a;
+}
+
+.woc-bg::after {
+    bottom: -160px;
+    right: -180px;
+    background: #000000;
+}
+
+.woc-container {
+    position: relative;
+    z-index: 1;
+    padding: 0; /* remove container padding so first still can sit flush at top */
+    background: #000; /* ensure black backdrop */
+}
+
+.woc-main {
+    min-height: 100vh;
+    /* remove all padding so images truly fill from top to bottom */
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.woc-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 30px;
+    align-items: end;
+}
+
+.woc-title {
+    font-family: "Bubbler One", "Diatype", sans-serif;
+    /* increased size to match request */
+    font-size: clamp(20px, 15vw, 40px);
+    /* tighten spacing */
+    letter-spacing: 1px;
+    word-spacing: -0.1em;
+    text-transform: uppercase;
+    /* tighten vertical gap around title */
+    margin: 6px 0 6px 0;
+    color: #ffffff;
+}
+    margin-bottom: 18px;
+}
+
+
+
+/* Make Water of Connection use same typeface as Works page */
+.woc-container, .woc-container * {
+    font-family: 'Diatype', Arial, sans-serif !important;
+}
+.woc-title { font-family: 'Diatype', Arial, sans-serif !important; font-weight: 900 !important; }
+.woc-section-title { font-family: 'Diatype', Arial, sans-serif !important; font-weight: 900 !important; }
+.woc-lede { font-family: 'Diatype', Arial, sans-serif !important; font-weight: 400 !important; }
+
+.woc-lede {
+    font-family: "Inconsolata", monospace;
+    font-size: 13pt;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.82);
+    margin: 0;
+}
+
+.woc-details {
+    display: grid;
+    gap: 14px;
+    padding: 18px 20px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 16px;
+    font-family: "Inconsolata", monospace;
+}
+
+.woc-detail-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 12pt;
+}
+
+.woc-detail-label {
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.68);
+}
+
+.woc-detail-value {
+    text-align: right;
+    color: #ffffff;
+}
+
+.woc-section {
+    margin-top: 44px;
+}
+
+.woc-section-title {
+    font-family: "Inconsolata", monospace;
+    font-size: 10pt;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin: 0 0 10px 0;
+}
+
+.woc-image-grid {
+    display: block; /* stack images vertically, full-width */
+    margin: 0;
+}
+
+/* remove default section top margin on Water page so first image sits at very top */
+.woc-bg .woc-section {
+    margin-top: 0 !important;
+    padding: 0 !important;
+}
+
+/* ensure no extra spacing around image grid */
+.woc-image-grid, .woc-image-grid > * { padding: 0; margin: 0; }
+
+/* ensure no rotation/tilt on Water page images */
+.woc-bg .woc-image,
+.woc-bg .woc-image:first-of-type {
+    transform: none !important;
+    -webkit-transform: none !important;
+}
+
+.woc-video-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+}
+
+/* hide native <video> tiles so only the embed iframe appears */
+.woc-video {
+    display: none;
+}
+
+.woc-image {
+    /* make full-bleed regardless of the centered .container */
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    height: 100vh;
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center center;
+    border-radius: 0; /* sharp corners */
+    box-shadow: none;
+    display: block;
+    position: relative; /* allow absolutely-positioned captions */
+}
+
+/* make stills non-interactive (unclickable) */
+.woc-image { pointer-events: none; }
+
+/* ensure the very first still anchors to the top */
+.woc-image:first-of-type {
+    background-position: top center;
+}
+
+/* ensure the first still always fills the viewport and sits flush */
+.woc-bg .woc-image:first-of-type {
+    height: 100vh !important;
+    min-height: 100vh !important;
+    margin-top: 0 !important;
+    background-position: top center !important;
+}
+
+/* ensure the final still also fills the viewport to the bottom */
+.woc-bg .woc-image:last-of-type {
+    height: 100vh !important;
+    min-height: 100vh !important;
+    margin-bottom: 0 !important;
+    background-position: center bottom !important;
+}
+
+/* remove extra spacing before the Back link so last image can reach bottom */
+.woc-bg .woc-back {
+    margin-top: 0 !important;
+    position: relative;
+}
+
+/* pin Back to Works to the bottom-right as an overlay */
+.woc-bg .woc-back {
+    position: fixed !important;
+    right: 28px !important;
+    bottom: 24px !important;
+    z-index: 420 !important;
+    background: none !important;
+    padding: 8px 12px !important;
+    border-radius: 6px !important;
+    color: #fff !important;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 220ms ease;
+}
+.woc-bg .woc-back.visible {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+/* dashed underline appearing under Back on hover (absolute so text doesn't move) */
+.woc-bg .woc-back {
+    display: inline-block !important;
+    position: fixed !important; /* keep fixed positioning */
+}
+.woc-bg .woc-back::after {
+    content: '';
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    bottom: 6px;
+    height: 0;
+    border-bottom: 2px solid currentColor;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 120ms linear;
+    pointer-events: none;
+}
+.woc-bg .woc-back.visible:hover::after,
+.woc-bg .woc-back:hover::after {
+    transform: scaleX(1);
+}
+/* match Back button font to top-right title */
+.woc-bg .woc-back {
+    font-family: 'Inconsolata', monospace !important;
+    font-weight: 300 !important;
+}
+
+/* remove container padding specifically on Water page so images touch edges */
+.woc-bg .container {
+    padding: 0 !important;
+}
+
+/* small fixed video overlay that sits on top of the first image */
+.woc-video-float {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    right: auto;
+    width: min(420px, 56vw); /* increased size and moved to left */
+    z-index: 330;
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 18px 48px rgba(255, 255, 255, 0.55);
+    background: #000;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateX(-8px);
+    transform-origin: left bottom;
+    transition: opacity 200ms ease, transform 150ms ease;
+}
+.woc-video-float.visible {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+.woc-video-float.visible:hover {
+    transform: translateX(0) scale(1.38);
+}
+.woc-video-float iframe {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    display: block;
+    border: 0;
+}
+
+/* label shown above the floating video: same font as Back, no background, small gap */
+.woc-video-label {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 8px;
+    font-family: 'Inconsolata', monospace;
+    font-size: 10pt;
+    color: #fff;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    pointer-events: none;
+    z-index: 50;
+    letter-spacing: 0.02em;
+}
+
+/* per-image captions */
+.woc-caption {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    color: #fff;
+    font-family: 'Inconsolata', monospace;
+    font-weight: 300;
+    line-height: 1.25;
+    pointer-events: none;
+    z-index: 40;
+    text-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    max-width: calc(100vw - 48px);
+}
+.woc-caption.large {
+    font-size: 15px; /* user's request */
+    letter-spacing: 0.04em;
+    font-weight: 600;
+    text-transform: uppercase;
+    right: 24px;
+    left: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: right;
+    max-width: 420px;
+}
+
+/* top-right title on first still */
+.woc-title-top {
+    position: absolute;
+    right: 60px;
+    top: 210px; /* ~40px below the top bar */
+    /* match Works page heading font, +10px larger */
+    font-family: "Bitcount Single", system-ui, sans-serif;
+    font-size: 15px; /* 70px (works) + 10px */
+    font-weight: 350;
+    color: #fff;
+    letter-spacing: 1.2px;
+    z-index: 60;
+    pointer-events: none;
+    text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+    .woc-title-top { font-size: 40px; right: 18px; top: 100px; }
+}
+
+/* marquee: centered wavy, scrolling right-to-left */
+.woc-marquee-wrapper {
+    position: fixed; /* persist while scrolling */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    overflow: hidden;
+    pointer-events: auto; /* allow hover to pause */
+    z-index: 200; /* keep above images and video */
+    display: flex;
+    justify-content: center;
+}
+.woc-marquee {
+    white-space: nowrap;
+    display: inline-block;
+    font-family: "Inconsolata", monospace; /* match Back to Works */
+    font-size: 36pt; /* slightly larger per request */
+    font-weight: 500; /* medium weight */
+    color: rgba(255,255,255,0.95);
+    will-change: transform;
+    pointer-events: none; /* allow interactions under the marquee */
+    animation: woc-marquee 22s linear infinite;
+}
+.woc-marquee span { display:inline-block; transform-origin: center; }
+/* wider sine-like wave: larger amplitude, longer period and smaller phase-step for wider wavelength */
+.woc-marquee span { animation: woc-wave 2.4s ease-in-out infinite; animation-delay: calc(var(--i) * 0.02s); }
+
+/* marquee track and copy styles for seamless non-overlapping scroll */
+.woc-marquee-track {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    white-space: nowrap;
+    will-change: transform;
+}
+.woc-marquee-copy { display: inline-block; }
+
+@keyframes woc-marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.keyframes-placeholder{}
+@keyframes woc-wave {
+    0% { transform: translateY(0px); }
+    12.5% { transform: translateY(-18px); }
+    25% { transform: translateY(-12px); }
+    37.5% { transform: translateY(-6px); }
+    50% { transform: translateY(0px); }
+    62.5% { transform: translateY(6px); }
+    75% { transform: translateY(12px); }
+    87.5% { transform: translateY(18px); }
+    100% { transform: translateY(0px); }
+}
+
+@media (max-width: 900px) {
+    .woc-marquee { font-size: 20pt; }
+    .woc-marquee-wrapper { top: 52%; }
+}
+
+/* pause marquee and wave on hover */
+.woc-marquee-wrapper:hover .woc-marquee,
+.woc-marquee-wrapper:hover .woc-marquee span {
+    animation-play-state: paused !important;
+}
+.woc-caption.small {
+    font-size: 10px; /* user's request */
+    white-space: pre-wrap;
+}
+
+/* small circular white toggle button inside the floating video */
+.woc-video-toggle {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #fff;
+    color: #000;
+    border: none;
+    display: none; /* shown on right-click */
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+    cursor: pointer;
+    font-size: 16px;
+}
+.woc-video-toggle { z-index: 12; }
+.woc-video-float.show-toggle .woc-video-toggle {
+    display: inline-flex;
+}
+
+/* collapsed state: hide iframe and shrink to a small square */
+.woc-video-float.collapsed {
+    width: 64px !important;
+    height: 64px !important;
+    overflow: visible;
+    padding: 8px !important;
+}
+.woc-video-float.collapsed iframe {
+    display: none;
+}
+.woc-video-float.collapsed .woc-video-toggle {
+    right: 8px;
+    top: 8px;
+}
+
+/* bottom social icons for Water page (show only when last image is visible) */
+.woc-bg .bottom-social-icons {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 420;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 220ms ease;
+}
+.woc-bg .bottom-social-icons.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* keep the main page bottom icons background-free */
+.main-bg .bottom-social-icons {
+    background: none !important;
+}
+
+
+
+.woc-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 28px;
+    font-family: "Inconsolata", monospace;
+    color: #ffffff;
+    text-decoration: none;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 11pt;
+}
+
+.woc-back:hover {
+    opacity: 0.7;
+}
+
+/* visual overlay disabled - show stills in document flow instead */
+.works-visual { display: none !important; }
+.works-visual__track {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    display: flex;
+    gap: 0; /* no spacing between images */
+    align-items: stretch;
+    will-change: transform;
+    transition: transform 0.55s cubic-bezier(0.22,0.61,0.36,1); /* smooth the motion */
+}
+.works-visual__item {
+    flex: 0 0 100vw; /* each item fills viewport width */
+    width: 100vw;
+    height: 100vh; /* fill viewport height */
+    background-size: cover; /* maintain aspect ratio and cover */
+    background-position: center center;
+    border-radius: 0; /* no gap rounding */
+    box-shadow: none;
+}
+
+/* Responsive iframe embed for video */
+.woc-video-embed {
+    /* make the embedded video full-bleed like the stills */
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    max-width: 1920px;
+    background: #000;
+    box-sizing: border-box;
+}
+.woc-video-embed iframe {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    display: block;
+    border: 0;
+}
+
+/* Ensure content sits above the visual track */
+.container, .woc-container {
+    position: relative;
+    z-index: 1;
+}
+
+.woc-overlay-media {
+    display: block;
+    max-width: 100%;
+    max-height: 92vh;
+    object-fit: contain;
+}
+@media (max-width: 900px) {
+    .woc-image {
+        height: 60vh;
+        min-height: 60vh;
+    }
 }
 .contact-card {
     width: 100%;

@@ -29,7 +29,7 @@
         </nav>
         <main class="works-main">
             <section class="works-list" aria-label="Works list">
-                <button class="work-item" data-type="image" data-src="artwork/waterofconnections2.png" aria-pressed="false">Water of Connections (2026)</button>
+                <a class="work-item work-item-link" href="webpages/waterofconnection/index.html" target="_blank" rel="noopener" data-type="image" data-src="webpages/waterofconnection/1.png">Water of Connections (2026)</a>
                 <button class="work-item" data-type="video" data-src="https://www.youtube.com/embed/o0etD4_j5FU?autoplay=1&mute=1&controls=0&loop=1&playlist=o0etD4_j5FU" aria-pressed="false">Listen, before i go (2026)</button>
                 <button class="work-item" data-type="video" data-src="https://www.youtube.com/embed/OJVuVPa5VXI?autoplay=1&mute=1&controls=0&loop=1&playlist=OJVuVPa5VXI" aria-pressed="false">Wintersound (2025)</button>
                 <button class="work-item" data-type="video" data-src="https://www.youtube.com/embed/2HaWDKYATSE?autoplay=1&mute=1&controls=0&loop=1&playlist=2HaWDKYATSE" data-seek="0" aria-pressed="false">That Sounds Exciting ! (2025)</button>
@@ -57,7 +57,7 @@
                 document.head.appendChild(tag);
             })();
 
-            const workItems = document.querySelectorAll('.work-item');
+            const workItems = document.querySelectorAll('.work-item[data-type]');
             const flyout = document.getElementById('workFlyout');
             let activePlayer = null;
             let activePlayerId = null;
@@ -300,8 +300,32 @@
                 // keyboard focus/blur keep existing behavior
                 btn.addEventListener('focus', () => showFlyout(btn));
                 btn.addEventListener('blur', hideFlyout);
+                // open preview on click and avoid navigation when previewing
+                btn.addEventListener('click', (e) => {
+                    if (!btn.dataset.type) return;
+                    // allow anchor default navigation (we set target="_blank"), prevent for buttons
+                    if (btn.tagName !== 'A') e.preventDefault();
+                    showFlyout(btn);
+                });
             });
+
+            (function(){
+                // Ensure nav 'Info' always navigates to the page even if other handlers prevent default
+                document.addEventListener('click', function(ev){
+                    try {
+                        const a = ev.target.closest && ev.target.closest('a.nav-link[href$="info.html"]');
+                        if (!a) return;
+                        // If some earlier handler prevented default, force navigation now
+                        if (ev.defaultPrevented) {
+                            ev.stopImmediatePropagation();
+                            window.location.href = a.getAttribute('href');
+                        }
+                    } catch (e) {}
+                }, true); // capture phase
+            })();
+
         </script>
+        
     </div>
 </body>
 </html>

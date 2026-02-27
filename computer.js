@@ -59,7 +59,8 @@
         print('Demo link clicked — open in new tab')
         window.open('/', '_blank')
       } else if(act === 'info') {
-        print('This is a prototype interface built with HTML/CSS/JS')
+        // navigate to the Info page instead of showing a popup
+        window.location.href = 'info.html';
       } else if(act === 'reset') {
         termOutput.innerHTML = ''
         print('Interface reset')
