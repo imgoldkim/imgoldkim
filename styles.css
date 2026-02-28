@@ -306,27 +306,29 @@ footer {
 .nav-link:hover {
     opacity: 0.7;
 }
-.nav-btn {
-    font-family: 'Diatype', Arial, sans-serif;
-    font-size: 10pt !important; /* force all buttons to same size */
-    color: #FFFFFF;
-    background: transparent;
-    border: none;
-    border-radius: 4px;
-    padding: 4px 12px;
+.woc-info-btn {
+    position: absolute;
+    right: 60px; /* place where the original long text lived */
+    top: 240px; /* align with title baseline */
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #fff;
+    color: #000;
+    border: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inconsolata', monospace;
+    font-weight: 700;
     cursor: pointer;
-    transition: background 0.2s;
-    font-weight: 900;
+    z-index: 65;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+    animation: woc-pulse 1.6s ease-in-out infinite alternate;
+    opacity: 0.95;
+    font-size: 20px; /* increased 'i' size */
+    line-height: 1;
 }
-
-.nav-btn:hover {
-    background: #e0e7ff;
-}
-
-/* Center CV content */
-.cv-center {
-    display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
@@ -739,6 +741,21 @@ img {
     margin: 0;
 }
 
+/* WOC specific top title sizing/position per request */
+.woc-title-top {
+    position: absolute;
+    right: 60px;
+    top: 235px;
+    font-family: "Bitcount Single", system-ui, sans-serif;
+    font-size: 20px;
+    font-weight: 350;
+    color: #fff;
+    letter-spacing: 1.2px;
+    z-index: 60;
+    pointer-events: none;
+    text-transform: uppercase;
+}
+
 .woc-details {
     display: grid;
     gap: 14px;
@@ -827,8 +844,17 @@ img {
     position: relative; /* allow absolutely-positioned captions */
 }
 
-/* make stills non-interactive (unclickable) */
-.woc-image { pointer-events: none; }
+/* allow interactions on stills (needed for buttons/overlays) */
+.woc-image { pointer-events: auto; }
+
+/* ensure info button and description popup can receive pointer events */
+.woc-image .woc-info-btn,
+.woc-image .woc-title-desc,
+.woc-image #wocInfoBtn,
+.woc-image #wocDesc {
+    pointer-events: auto;
+    cursor: default;
+}
 
 /* ensure the very first still anchors to the top */
 .woc-image:first-of-type {
@@ -980,30 +1006,67 @@ img {
     text-transform: uppercase;
     right: 24px;
     left: auto;
-    top: 50%;
+    top: 60%;
     transform: translateY(-50%);
     text-align: right;
     max-width: 420px;
 }
 
-/* top-right title on first still */
-.woc-title-top {
+/* description popup styling (controlled via .open/.closing) */
+.woc-title-desc {
     position: absolute;
-    right: 60px;
-    top: 210px; /* ~40px below the top bar */
-    /* match Works page heading font, +10px larger */
-    font-family: "Bitcount Single", system-ui, sans-serif;
-    font-size: 15px; /* 70px (works) + 10px */
-    font-weight: 350;
+    right: calc(60px + 46px);
+    top: 740px;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    color: #000;
+    z-index: 65;
+    pointer-events: none;
+    max-width: 420px;
+    box-shadow: none;
+    opacity: 0;
+    transform: translateX(-18px);
+    transform-origin: left center;
+    transition: transform 320ms cubic-bezier(.2,.9,.3,1), opacity 240ms ease-in-out;
+    font-family: 'Inconsolata', monospace;
+    font-size: 14px;
+    line-height: 1.35;
+    white-space: pre-wrap;
+}
+.woc-title-desc.open { opacity: 1; transform: translateX(0); pointer-events: auto; }
+.woc-title-desc.closing { opacity: 0; transform: translateX(18px); pointer-events: none; }
+
+
+/* button discription */
+.woc-title-left-block {
+    position: absolute;
+    left: 54px;
+    top: 860px; /* below the title line */
+    font-family: 'Inconsolata', monospace;
+    font-weight: 300;
     color: #fff;
-    letter-spacing: 1.2px;
     z-index: 60;
     pointer-events: none;
-    text-transform: uppercase;
+    font-size: 18.5px;
+    line-height: 1.25;
+    max-width: 420px;
+    white-space: pre-wrap;
+}
+@media (max-width:900px){
+    .woc-title-left-block { left: 18px; top: 140px; font-size: 11px; max-width: calc(100vw - 36px); }
 }
 
-@media (max-width: 900px) {
-    .woc-title-top { font-size: 40px; right: 18px; top: 100px; }
+/* focus and responsive rules will apply to the single .woc-info-btn definition above */
+.woc-info-btn:focus { outline: 3px solid rgba(0,0,0,0.12); }
+@media (max-width:900px){ .woc-info-btn { right:12px; top:96px; width:40px; height:40px; font-size:18px; } }
+
+/* (previous visible description rules replaced by fixed-position variant above) */
+@media (max-width:900px){ .woc-title-desc { left:auto; top:auto; font-size:13px; max-width: calc(100vw - 36px); } }
+
+@keyframes woc-pulse {
+    0% { opacity: 0.45; transform: scale(0.98); }
+    100% { opacity: 1; transform: scale(1.02); }
 }
 
 /* marquee: centered wavy, scrolling right-to-left */

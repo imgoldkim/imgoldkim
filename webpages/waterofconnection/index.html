@@ -16,6 +16,7 @@
     <div class="woc-video-float" aria-hidden="true">
         <iframe src="https://www.youtube.com/embed/r681E6kw0rs?rel=0&amp;showinfo=0" title="Water of Connection video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
+    <!-- popup removed from root; will be placed inside first .woc-image so it scrolls with content -->
     <!-- global marquee fixed to viewport so it persists during scrolling -->
     <div class="woc-marquee-wrapper" aria-hidden="false">
         <div class="woc-marquee" id="wocMarquee">𓏸𓈒𓈒𓆟𓆝𓆝&nbsp;𓆟&nbsp;𓆞&nbsp;·𓂃&nbsp;𓈒𓏸&nbsp;&nbsp;Water of Connections&nbsp;&nbsp;&nbsp;𓏸𓈒𓈒𓆟𓆝𓆝&nbsp;𓆟&nbsp;𓆞&nbsp;·𓂃&nbsp;𓈒𓏸</div>
@@ -33,7 +34,12 @@
             <section class="woc-section">
                 <div class="woc-image-grid">
                     <div class="woc-image" role="img" aria-label="Water of Connection still 1" style="background-image: url('1.png')">
-                        <div class="woc-title-top">WATER OF CONNECTIONS</div>
+                        <div class="woc-title-top">WATER OF CONNECTIONS (2026) </div>
+                        <button id="wocInfoBtn" class="woc-info-btn" aria-expanded="false" aria-controls="wocDesc" title="More info">i</button>
+                        <div id="wocDesc" class="woc-title-left-block woc-title-desc" style="display:none;">
+                            <p style="margin:0;color:inherit;">Audio included — 12mins performance<br>&amp; Mixed media Installation</p>
+                            <p style="margin:0;margin-top:6px;color:inherit;">Seaweed, metal, plastic<br>containers and tubes, water,<br>leaves, 3D-printed LP player,<br>flowers, metal film, Pure data,<br>DIY Arduino audio sensor,<br>audio cables, Korean flute,<br>mixer, a pair of speakers.</p>
+                        </div>
                         <!-- marquee removed from inside image to avoid duplicate IDs/overlap; global fixed marquee used instead -->
                     </div>
                     <div class="woc-image" role="img" aria-label="Water of Connection still 2" style="background-image: url('2.png')"></div>
@@ -90,16 +96,32 @@
 
             function openVideo(src) {
                 inner.querySelectorAll('.woc-overlay-media').forEach(n=>n.remove());
-                const v = document.createElement('video');
-                v.className = 'woc-overlay-media';
-                v.src = src;
-                v.controls = true;
-                v.autoplay = true;
-                v.playsInline = true;
-                v.style.maxWidth = '100%';
-                v.style.maxHeight = '92vh';
-                v.style.borderRadius = '6px';
-                inner.insertBefore(v, btnClose);
+                // If the source looks like a local video file, use a <video> element
+                if (/\.(mp4|webm|ogg)(\?|$)/i.test(src)) {
+                    const v = document.createElement('video');
+                    v.className = 'woc-overlay-media';
+                    v.src = src;
+                    v.controls = true;
+                    v.autoplay = true;
+                    v.playsInline = true;
+                    v.style.maxWidth = '100%';
+                    v.style.maxHeight = '92vh';
+                    v.style.borderRadius = '6px';
+                    inner.insertBefore(v, btnClose);
+                } else {
+                    // otherwise embed via iframe (YouTube, external embeddable players, etc.)
+                    const iframe = document.createElement('iframe');
+                    iframe.className = 'woc-overlay-media';
+                    iframe.src = src;
+                    iframe.frameBorder = '0';
+                    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen';
+                    iframe.allowFullscreen = true;
+                    iframe.style.width = '100%';
+                    iframe.style.maxHeight = '92vh';
+                    iframe.style.height = 'min(72vh, 80vw)';
+                    iframe.style.borderRadius = '6px';
+                    inner.insertBefore(iframe, btnClose);
+                }
                 overlay.style.display = 'flex';
             }
 
@@ -132,6 +154,28 @@
                     if (s) openVideo(s);
                 });
             });
+
+            // make the floating video open in the overlay when clicked
+            const floatContainer = document.querySelector('.woc-video-float');
+            if (floatContainer) {
+                floatContainer.style.cursor = 'zoom-in';
+                floatContainer.addEventListener('click', (e) => {
+                    // find an iframe or video inside and use its src
+                    const childIframe = floatContainer.querySelector('iframe');
+                    const childVideo = floatContainer.querySelector('video');
+                    let src = null;
+                    if (childVideo && childVideo.currentSrc) src = childVideo.currentSrc;
+                    else if (childVideo && childVideo.querySelector('source') && childVideo.querySelector('source').src) src = childVideo.querySelector('source').src;
+                    else if (childIframe && childIframe.src) {
+                        src = childIframe.src;
+                        // if YouTube embed, ensure autoplay
+                        if (/youtube\.com|youtu\.be/.test(src) && !/autoplay=1/.test(src)) {
+                            src += (src.indexOf('?') > -1 ? '&' : '?') + 'autoplay=1';
+                        }
+                    }
+                    if (src) openVideo(src);
+                });
+            }
 
             // show floating video only while images 2.png through 6.png are visible
             const floatVid = document.querySelector('.woc-video-float');
@@ -218,6 +262,49 @@
             }, true);
         })();
         </script>
-    
+</script>
+    <script>
+        (function(){
+            const infoBtn = document.getElementById('wocInfoBtn');
+            const desc = document.getElementById('wocDesc');
+            if (!infoBtn || !desc) return;
+
+            // allow script-controlled visibility
+            desc.hidden = false;
+
+            // simple toggle: popup is inside the first .woc-image so it scrolls with content
+            desc.hidden = false; // ensure element available
+            desc.style.display = 'none';
+
+            function openDesc(){
+                desc.classList.remove('closing');
+                desc.classList.add('open');
+                desc.style.display = 'block';
+                infoBtn.setAttribute('aria-expanded','true');
+            }
+
+            function closeDesc(){
+                if (!desc.classList.contains('open')) return;
+                desc.classList.add('closing');
+                desc.classList.remove('open');
+                infoBtn.setAttribute('aria-expanded','false');
+                setTimeout(()=> { desc.classList.remove('closing'); desc.style.display = 'none'; }, 360);
+            }
+
+            infoBtn.addEventListener('click', function(e){
+                e.stopPropagation();
+                e.preventDefault();
+                if (desc.classList.contains('open')) closeDesc(); else openDesc();
+            });
+
+            document.addEventListener('click', function(e){
+                if (e.target.closest && (e.target.closest('#wocDesc') || e.target.closest('#wocInfoBtn'))) return;
+                closeDesc();
+            });
+            document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeDesc(); });
+        })();
+    </script>
+    <!-- popup moved to document root so it can be positioned dynamically (injected after overlay) -->
 </body>
 </html>
+/html>
