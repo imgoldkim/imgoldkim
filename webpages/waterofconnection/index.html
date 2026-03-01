@@ -74,6 +74,20 @@
         </div>
     </div>
 
+    <!-- Alt description shown while 4.png is visible -->
+    <div id="wocAltDesc" class="woc-alt-desc" aria-hidden="true">
+        Beginning with an inquiry into the relationship between nature and technology, focusing on the suffering of animals caused by tracking systems and surveillance
+        technologies. From this point of departure, the work returns to water, a recurring medium in my practice, using capacitive sensing to capture invisible interactions
+        and translate them into sound.
+    </div>
+
+    <!-- Centered live-performance text shown during 6.png - 8.png -->
+    <div id="wocLive" class="woc-live-text" aria-hidden="true">
+        <p style="margin:0;font-weight:600;">Live Performance</p>
+        <p style="margin:8px 0 0 0;">Just as the human body is composed mostly of water, it carries energies that are invisible yet present. When hands meet, subtle differences are sensed and transformed into sound,</p>
+        <p style="margin:6px 0 0 0;">making connection perceptible.</p>
+    </div>
+
     <script>
         (function(){
             const overlay = document.getElementById('wocOverlay');
@@ -178,12 +192,25 @@
             }
 
             // show floating video only while images 2.png through 6.png are visible
-            const floatVid = document.querySelector('.woc-video-float');
-            const images = Array.from(document.querySelectorAll('.woc-image'));
+                const floatVid = document.querySelector('.woc-video-float');
+                const images = Array.from(document.querySelectorAll('.woc-image'));
+                const desc = document.getElementById('wocDesc');
+                const infoBtnEl = document.getElementById('wocInfoBtn');
+                const altDesc = document.getElementById('wocAltDesc');
+                const liveText = document.getElementById('wocLive');
             if (floatVid && images.length) {
                 const backBtn = document.querySelector('.woc-back');
                 const bottomSocial = document.querySelector('.bottom-social-icons');
+                // track intersection state for images
+                const vis = new Array(images.length).fill(false);
                 const io = new IntersectionObserver((entries)=>{
+                    // update visibility map for the entries
+                    entries.forEach(en=>{
+                        const idx = images.indexOf(en.target);
+                        if (idx >= 0) vis[idx] = !!en.isIntersecting;
+                    });
+
+                    // process UI updates per entry
                     entries.forEach(en=>{
                         const idx = images.indexOf(en.target);
                         // images are zero-based: idx 0==1.png, idx 1==2.png ... idx 7==8.png
@@ -207,9 +234,91 @@
                             if (en.isIntersecting && idx === images.length - 1) bottomSocial.classList.add('visible');
                             if (en.isIntersecting && idx !== images.length - 1) bottomSocial.classList.remove('visible');
                         }
+
+                        // caption behaviour: show scroll-caption under first still,
+                        // move caption to top of second/third still when visible,
+                        // otherwise hide
+                        if (desc) {
+                            if (!desc.classList.contains('scroll-caption')) desc.classList.add('scroll-caption');
+
+                            if (en.isIntersecting && idx === 0) {
+                                // First image visible -> show caption as scroll-caption
+                                desc.classList.remove('at-top');
+                                desc.classList.add('scroll-caption','visible');
+                                desc.classList.remove('open');
+                                desc.style.display = 'block';
+                                if (infoBtnEl) infoBtnEl.setAttribute('aria-expanded','true');
+                            } else if (en.isIntersecting && (idx === 1 || idx === 2)) {
+                                // Second or third image visible -> position caption at top (13px)
+                                desc.classList.remove('scroll-caption','visible');
+                                desc.classList.add('at-top','open');
+                                desc.style.display = 'block';
+                                if (infoBtnEl) infoBtnEl.setAttribute('aria-expanded','true');
+                            } else if (en.isIntersecting && idx >= 3) {
+                                // From fourth image onwards hide caption (allow transition)
+                                desc.classList.remove('visible','at-top');
+                                desc.classList.remove('open');
+                                if (infoBtnEl) infoBtnEl.setAttribute('aria-expanded','false');
+                                // hide element after allow transition to complete
+                                setTimeout(()=> { if (!desc.classList.contains('visible') && !desc.classList.contains('open')) desc.style.display = 'none'; }, 720);
+                            } else {
+                                // not intersecting -> ensure hidden when not open (delay to allow fade)
+                                desc.classList.remove('visible','at-top');
+                                if (!desc.classList.contains('open')) {
+                                    setTimeout(()=> { if (!desc.classList.contains('open') && !desc.classList.contains('visible')) desc.style.display = 'none'; }, 720);
+                                }
+                            }
+                        }
                     });
+
+                    // Show altDesc only when images 4 or 5 (idx 3 or 4) are visible
+                    // and only after the primary desc is not visible/open
+                    if (altDesc) {
+                        const primaryVisible = desc && (desc.classList.contains('visible') || desc.classList.contains('open'));
+                        if (!primaryVisible && (vis[3] || vis[4])) {
+                            altDesc.classList.add('visible');
+                            altDesc.setAttribute('aria-hidden','false');
+                        } else {
+                            altDesc.classList.remove('visible');
+                            altDesc.setAttribute('aria-hidden','true');
+                        }
+                    }
+
+                    // Show centered live text during images 6.png - 8.png (idx 5..7)
+                    if (liveText) {
+                        if (vis[5] || vis[6] || vis[7]) {
+                            liveText.classList.add('visible');
+                            liveText.setAttribute('aria-hidden','false');
+                            document.body.classList.add('woc-live-active');
+                        } else {
+                            liveText.classList.remove('visible');
+                            liveText.setAttribute('aria-hidden','true');
+                            document.body.classList.remove('woc-live-active');
+                        }
+                    }
+
+                    // Toggle marquee wrapper: show only while first image (idx 0) is visible
+                    try {
+                        const marqueeWrapper = document.querySelector('.woc-marquee-wrapper');
+                        if (marqueeWrapper) {
+                            if (vis[0]) {
+                                marqueeWrapper.style.display = 'flex';
+                                marqueeWrapper.setAttribute('aria-hidden','false');
+                            } else {
+                                marqueeWrapper.style.display = 'none';
+                                marqueeWrapper.setAttribute('aria-hidden','true');
+                            }
+                        }
+                    } catch (e) {}
                 }, { threshold: 0.5 });
                 images.forEach(img => io.observe(img));
+                // ensure marquee wrapper visibility follows first image (1.png) visibility
+                const marqueeWrapper = document.querySelector('.woc-marquee-wrapper');
+                if (marqueeWrapper) {
+                    // initialize hidden unless first image is in view
+                    marqueeWrapper.style.display = 'none';
+                    marqueeWrapper.setAttribute('aria-hidden','true');
+                }
             }
 
             btnClose.addEventListener('click', closeOverlay);
@@ -262,7 +371,6 @@
             }, true);
         })();
         </script>
-</script>
     <script>
         (function(){
             const infoBtn = document.getElementById('wocInfoBtn');
@@ -307,4 +415,4 @@
     <!-- popup moved to document root so it can be positioned dynamically (injected after overlay) -->
 </body>
 </html>
-/html>
+

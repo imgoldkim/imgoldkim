@@ -115,6 +115,7 @@ html, body {
     min-height: 100vh;
     margin: 0;
     padding: 0;
+    overflow-x: hidden; /* prevent horizontal scroll causing black gutter */
 }
 
 /* Force page and containers to black to avoid any white gaps */
@@ -188,7 +189,6 @@ body.main-bg {
     padding: 20px;
     background: transparent !important;
     position: relative;
-    z-index: 1; /* keep content above video */
 }
 
 header {
@@ -708,27 +708,25 @@ img {
     align-items: end;
 }
 
-.woc-title {
-    font-family: "Bubbler One", "Diatype", sans-serif;
-    /* increased size to match request */
-    font-size: clamp(20px, 15vw, 40px);
-    /* tighten spacing */
-    letter-spacing: 1px;
-    word-spacing: -0.1em;
-    text-transform: uppercase;
-    /* tighten vertical gap around title */
-    margin: 6px 0 6px 0;
-    color: #ffffff;
+.woc-alt-desc {
+    position: fixed;
+    right: 164px; 
+    top: 13px; /* start at top of the viewport when 4.png is visible */
+    max-width: 420px;
+    color: #fff;
+    font-family: 'Inconsolata', monospace; /* match first paragraph */
+    font-weight: 300; /* match weight of first paragraph */
+    font-size: 14px; /* match .woc-title-desc */
+    line-height: 1.35;
+    text-align: right; /* right aligned */
+    pointer-events: none;
+    background: transparent;
+    box-shadow: none;
+    display: none;
+    z-index: 1200;
 }
-    margin-bottom: 18px;
-}
-
-
-
-/* Make Water of Connection use same typeface as Works page */
-.woc-container, .woc-container * {
-    font-family: 'Diatype', Arial, sans-serif !important;
-}
+.woc-alt-desc.visible { display: block; }
+@media (max-width:900px){ .woc-alt-desc { left: 18px; right: 18px; top: auto; bottom: 80px; transform: none; text-align: left; } }
 .woc-title { font-family: 'Diatype', Arial, sans-serif !important; font-weight: 900 !important; }
 .woc-section-title { font-family: 'Diatype', Arial, sans-serif !important; font-weight: 900 !important; }
 .woc-lede { font-family: 'Diatype', Arial, sans-serif !important; font-weight: 400 !important; }
@@ -756,28 +754,27 @@ img {
     text-transform: uppercase;
 }
 
-.woc-details {
-    display: grid;
-    gap: 14px;
-    padding: 18px 20px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    background: rgba(0, 0, 0, 0.6);
-    border-radius: 16px;
-    font-family: "Inconsolata", monospace;
+.woc-alt-desc {
+    position: fixed;
+    right: 54px; /* increased gap from right as requested */
+    top: 13px; /* start at top of the viewport when 4.png is visible */
+    max-width: 420px;
+    color: #fff;
+    font-family: 'Inconsolata', monospace; /* match first paragraph */
+    font-weight: 300; /* match weight of first paragraph */
+    font-size: 14px; /* match .woc-title-desc */
+    line-height: 1.35;
+    text-align: right; /* right aligned */
+    pointer-events: none;
+    background: transparent;
+    box-shadow: none;
+    display: block; /* keep in DOM so opacity can animate */
+    opacity: 0; /* start hidden */
+    visibility: hidden;
+    transition: opacity 1s ease; /* longer fade-in */
+    z-index: 1200;
 }
-
-.woc-detail-item {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    font-size: 12pt;
-}
-
-.woc-detail-label {
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.68);
-}
+.woc-alt-desc.visible { opacity: 1; visibility: visible; }
 
 .woc-detail-value {
     text-align: right;
@@ -835,7 +832,9 @@ img {
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
     height: 100vh;
+    height: 100dvh;
     min-height: 100vh;
+    min-height: 100dvh;
     background-size: cover;
     background-position: center center;
     border-radius: 0; /* sharp corners */
@@ -864,7 +863,9 @@ img {
 /* ensure the first still always fills the viewport and sits flush */
 .woc-bg .woc-image:first-of-type {
     height: 100vh !important;
+    height: 100dvh !important;
     min-height: 100vh !important;
+    min-height: 100dvh !important;
     margin-top: 0 !important;
     background-position: top center !important;
 }
@@ -872,7 +873,9 @@ img {
 /* ensure the final still also fills the viewport to the bottom */
 .woc-bg .woc-image:last-of-type {
     height: 100vh !important;
+    height: 100dvh !important;
     min-height: 100vh !important;
+    min-height: 100dvh !important;
     margin-bottom: 0 !important;
     background-position: center bottom !important;
 }
@@ -1016,26 +1019,38 @@ img {
 .woc-title-desc {
     position: absolute;
     right: calc(60px + 46px);
-    top: 740px;
-    background: transparent;
-    padding: 0;
+    top: 240px; /* align near the info button */
+    background: transparent; /* keep background transparent */
+    padding: 0; /* no extra padding */
     border-radius: 0;
-    color: #000;
-    z-index: 65;
+    color: #fff; /* keep text visible */
+    z-index: 520; /* sit above back/social overlays */
     pointer-events: none;
     max-width: 420px;
-    box-shadow: none;
-    opacity: 0;
-    transform: translateX(-18px);
-    transform-origin: left center;
-    transition: transform 320ms cubic-bezier(.2,.9,.3,1), opacity 240ms ease-in-out;
+    box-shadow: none; /* remove shadow */
+    opacity: 0; /* start hidden; visibility controlled via classes */
+    visibility: hidden;
+    transform: translateY(6px);
+    transform-origin: unset;
+    transition: opacity 700ms ease, transform 500ms ease, visibility 0s linear 700ms;
     font-family: 'Inconsolata', monospace;
     font-size: 14px;
     line-height: 1.35;
     white-space: pre-wrap;
 }
-.woc-title-desc.open { opacity: 1; transform: translateX(0); pointer-events: auto; }
-.woc-title-desc.closing { opacity: 0; transform: translateX(18px); pointer-events: none; }
+.woc-title-desc.visible,
+.woc-title-desc.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+    transition-delay: 0s;
+}
+.woc-title-desc.closing {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
 
 
 /* button discription */
@@ -1064,10 +1079,126 @@ img {
 /* (previous visible description rules replaced by fixed-position variant above) */
 @media (max-width:900px){ .woc-title-desc { left:auto; top:auto; font-size:13px; max-width: calc(100vw - 36px); } }
 
+/* Fixed scroll-caption: appears under first still and hides mid-second still */
+.woc-title-desc.scroll-caption {
+    position: fixed;
+    left: 50%;
+    bottom: 56px; /* place slightly above bottom social icons */
+    transform: translate(-50%, 0);
+    max-width: calc(100% - 64px);
+    text-align: center;
+    padding: 0;
+    pointer-events: none;
+    background: transparent; /* ensure transparent */
+    opacity: 1; /* visible when added */
+    transition: none; /* disable transitions */
+    z-index: 620;
+    font-size: 16px;
+    line-height: 1.25;
+}
+.woc-title-desc.scroll-caption.visible { opacity: 1; }
+
+/* Position description at top of second still (2.png) */
+.woc-title-desc.at-top {
+    position: fixed; /* make visible relative to viewport */
+    top: 150px; /* 13px from top as requested */
+    left: 54px;
+    right: auto;
+    transform: none;
+    max-width: 420px;
+    text-align: left;
+    padding: 0;
+    pointer-events: none;
+    background: transparent;
+    box-shadow: none;
+    opacity: 1;
+    transition: none;
+    z-index: 1200; /* ensure it's above other overlays */
+    font-size: 14px;
+    line-height: 1.35;
+}
+@media (max-width:900px){ .woc-title-desc.at-top { left: 18px; right: 18px; top: 13px; } }
+
+/* Left-side alt description shown during 4.png (idx 3) */
+.woc-alt-desc {
+    position: fixed;
+    right: 120px; /* moved inward from the edge */
+    top: 70%;
+    transform: translateY(-50%);
+    max-width: 420px;
+    color: #fff;
+    font-family: 'Inconsolata', monospace;
+    font-size: 14px;
+    line-height: 1.45;
+    text-align: right;
+    pointer-events: none;
+    background: transparent;
+    box-shadow: none;
+    display: none;
+    z-index: 1200;
+}
+.woc-alt-desc.visible { display: block; }
+@media (max-width:900px){ .woc-alt-desc { left: 18px; right: 18px; top: auto; bottom: 80px; transform: none; } }
+
+/* Final override: ensure alt desc does not shift images — keep text inward from edge */
+.woc-alt-desc { right: 120px !important; text-align: right !important; }
+
 @keyframes woc-pulse {
     0% { opacity: 0.45; transform: scale(0.98); }
-    100% { opacity: 1; transform: scale(1.02); }
+    100% { opacity: 1; transform: scale(1.52); }
 }
+
+/* Centered live-performance text shown over images 6-8 */
+.woc-live-text {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 920px;
+    width: min(92vw, 920px);
+    color: #fff;
+    text-align: center;
+    font-family: 'Inconsolata', monospace;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 1.45;
+    pointer-events: none;
+    background: transparent;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 800ms ease, visibility 0s linear 800ms;
+    z-index: 650;
+}
+.woc-live-text.visible { opacity: 1; visibility: visible; transition: opacity 800ms ease; }
+@media (max-width: 900px) {
+    .woc-live-text { font-size: 15px; padding: 0 18px; }
+}
+
+/* Staggered paragraph fade-ins inside the live text block */
+.woc-live-text p {
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 1000ms ease, transform 500ms ease;
+}
+.woc-live-text.visible p:nth-child(1) {
+    transition-delay: 90ms;
+    opacity: 1;
+    transform: translateY(0);
+}
+.woc-live-text.visible p:nth-child(2) {
+    transition-delay: 600ms;
+    opacity: 1;
+    transform: translateY(0);
+}
+.woc-live-text.visible p:nth-child(3) {
+    transition-delay: 1000ms;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* When live text is showing, subtly dim the marquee/fish glyphs to 20% opacity */
+.woc-marquee { transition: opacity 260ms ease; }
+.woc-live-active .woc-marquee { opacity: 0.2 !important; }
 
 /* marquee: centered wavy, scrolling right-to-left */
 .woc-marquee-wrapper {
@@ -1091,7 +1222,7 @@ img {
     color: rgba(255,255,255,0.95);
     will-change: transform;
     pointer-events: none; /* allow interactions under the marquee */
-    animation: woc-marquee 22s linear infinite;
+    animation: woc-marquee 17s linear infinite;
 }
 .woc-marquee span { display:inline-block; transform-origin: center; }
 /* wider sine-like wave: larger amplitude, longer period and smaller phase-step for wider wavelength */
@@ -1449,3 +1580,11 @@ img {
 .footer-icon:hover {
     opacity: 1;
 }
+
+/* Hide the circular info "i" button entirely (override) */
+.woc-info-btn {
+    display: none !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+}
+
