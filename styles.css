@@ -846,6 +846,27 @@ img {
 /* allow interactions on stills (needed for buttons/overlays) */
 .woc-image { pointer-events: auto; }
 
+/* small overlay caption placed on the first still (1.png) */
+.woc-image .woc-overlay-caption {
+    position: absolute;
+    top: 560pt; /* move down 10pt from the top */
+    right: 47pt; /* anchored to right side */
+    font-size: 10pt;
+    color: #ffffff;
+    text-align: right;
+    z-index: 999; /* ensure it sits above page elements */
+    line-height: 1.05;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.85);
+    pointer-events: none; /* allow clicks to pass through */
+    padding: 0; /* remove background padding */
+    background: transparent; /* remove background as requested */
+    border-radius: 0;
+    font-family: "Bitcount Single", system-ui, sans-serif; /* match .woc-title-top */
+    /* weight and shadow for visibility — adjust numbers as needed */
+    font-weight: 400; /* try 100..900 to change thickness */
+    text-shadow: none
+}
+
 /* ensure info button and description popup can receive pointer events */
 .woc-image .woc-info-btn,
 .woc-image .woc-title-desc,
