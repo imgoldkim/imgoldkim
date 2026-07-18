@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Move Body, See Sound Japan (2025)</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../cursor-background.js"></script>
+</head>
+<body class="woc-bg">
+    <div class="woc-marquee-wrapper" aria-hidden="false">
+        <div class="woc-marquee" id="wocMarquee">Move Body, See Sound Japan</div>
+    </div>
+    <div class="container woc-container">
+        <div class="top-right-title"><a class="top-right-title-link" href="../../index.html" aria-label="Go to home">●◦∘◦Imgoldkim ●◌◌∘◦∘<span class="kr">금이다</span>∘◌∘</a></div>
+        <nav class="top-right-menu">
+            <a class="nav-link" href="../../info.html">Info</a>
+            <a class="nav-link" href="../../work.html">Works</a>
+            <a class="nav-link" href="../../events.html">Events</a>
+            <a class="nav-link" href="../../contact.html">Contact</a>
+        </nav>
+        <main class="woc-main">
+            <section class="woc-section">
+                <div class="woc-image-grid">
+                    <div class="woc-image" role="img" aria-label="MBSSJ still 1" style="background-image: url('M1.png'); background-position: center 50%;">
+                        <div class="woc-title-top">MOVE BODY, SEE SOUND JAPAN (2025)</div>
+                    </div>
+                    <div class="woc-image" role="img" aria-label="MBSSJ still 2" style="background-image: url('M2.png')"></div>
+                    <div class="woc-image" role="img" aria-label="MBSSJ still 3" style="background-image: url('M3.png')"></div>
+                    <div class="woc-image" role="img" aria-label="MBSSJ still 4" style="background-image: url('M4.png')"></div>
+                </div>
+                <a class="woc-back" href="../../work.html">Back to Works</a>
+            </section>
+        </main>
+    </div>
+    <script>
+        (function(){
+            const overlay = document.createElement('div');
+            overlay.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(3,6,8,0.88);z-index:9999;align-items:center;justify-content:center;padding:24px;';
+            const inner = document.createElement('div');
+            inner.style.cssText = 'max-width:1200px;max-height:92vh;width:100%;display:flex;align-items:center;justify-content:center;position:relative;';
+            const closeBtn = document.createElement('button');
+            closeBtn.innerText = '✕';
+            closeBtn.style.cssText = 'position:absolute;top:12px;right:12px;background:transparent;border:0;color:#fff;font-family:Inconsolata,monospace;font-size:18pt;cursor:pointer;';
+            closeBtn.addEventListener('click', ()=> overlay.style.display = 'none');
+            inner.appendChild(closeBtn);
+            overlay.appendChild(inner);
+            document.body.appendChild(overlay);
+
+            function openImage(src, alt) {
+                inner.querySelectorAll('img').forEach(n=>n.remove());
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = alt || '';
+                img.style.maxWidth = '100%';
+                img.style.maxHeight = '92vh';
+                img.style.objectFit = 'contain';
+                img.style.borderRadius = '6px';
+                inner.insertBefore(img, closeBtn);
+                overlay.style.display = 'flex';
+            }
+
+            document.querySelectorAll('.woc-image').forEach(el => {
+                el.style.cursor = 'zoom-in';
+                el.addEventListener('click', () => {
+                    const bg = window.getComputedStyle(el).backgroundImage || '';
+                    const m = bg.match(/url\(["']?(.*?)["']?\)/);
+                    const src = m ? m[1] : null;
+                    const alt = el.getAttribute('aria-label') || '';
+                    if (src) openImage(src, alt);
+                });
+            });
+            overlay.addEventListener('click', (e)=>{ if (e.target === overlay) overlay.style.display = 'none'; });
+            document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') overlay.style.display = 'none'; });
+        })();
+    </script>
+</body>
+</html>

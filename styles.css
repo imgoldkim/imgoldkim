@@ -128,7 +128,7 @@ html, body, .container, .woc-container, footer {
 body, html { margin: 0; padding: 0; }
 
 /* ensure footer doesn't add unexpected height or white background */
-footer { background: #000 !important; margin: 0; padding: 0; }
+footer { background: transparent !important; margin: 0; padding: 0; }
 /* Bottom navigation menu styles */
 .bottom-menu {
     display: flex;
@@ -247,6 +247,7 @@ footer {
     padding: 20px;
     color: #666;
     margin-top: 40px;
+    background: transparent;
 }
 
 .footer-blue {
@@ -515,6 +516,10 @@ img {
     pointer-events: none;
     user-select: none;
     -webkit-user-drag: none;
+    /* make <img> elements responsive across the site */
+    max-width: 100%;
+    height: auto;
+    display: block;
 }
 .bottom-social-icons {
     position: absolute;
@@ -524,6 +529,7 @@ img {
     display: flex;
     gap: 14px;
     z-index: 100;
+    background: transparent !important;
 }
 
 .social-icon {
@@ -849,8 +855,10 @@ img {
 /* small overlay caption placed on the first still (1.png) */
 .woc-image .woc-overlay-caption {
     position: absolute;
-    top: 560pt; /* move down 10pt from the top */
-    right: 47pt; /* anchored to right side */
+    /* use relative positioning so caption scales with viewport */
+    top: 60%;
+    right: 3%;
+    transform: translateY(-50%);
     font-size: 10pt;
     color: #ffffff;
     text-align: right;
@@ -862,9 +870,8 @@ img {
     background: transparent; /* remove background as requested */
     border-radius: 0;
     font-family: "Bitcount Single", system-ui, sans-serif; /* match .woc-title-top */
-    /* weight and shadow for visibility — adjust numbers as needed */
-    font-weight: 400; /* try 100..900 to change thickness */
-    text-shadow: none
+    font-weight: 400;
+    text-shadow: none;
 }
 
 /* ensure info button and description popup can receive pointer events */
@@ -1224,15 +1231,17 @@ img {
 /* marquee: centered wavy, scrolling right-to-left */
 .woc-marquee-wrapper {
     position: fixed; /* persist while scrolling */
-    left: 50%;
+    left: 0;
+    right: 0;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateY(-50%);
     width: 100%;
     overflow: hidden;
     pointer-events: auto; /* allow hover to pause */
     z-index: 200; /* keep above images and video */
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 .woc-marquee {
     white-space: nowrap;
@@ -1429,6 +1438,58 @@ img {
         min-height: 60vh;
     }
 }
+    /* Responsive overrides to prevent overlap and ensure fluid visuals */
+    @media (max-width: 900px) {
+        /* move header/menu inward and reduce sizes */
+        .top-right-menu {
+            top: 16px;
+            right: 12px;
+            gap: 12px;
+            font-size: 12px;
+        }
+        .top-right-title {
+            top: 12px;
+            left: 12px;
+            font-size: 12px;
+            line-height: 1.1;
+        }
+        .nav-link { font-size: 12pt; letter-spacing: 1px; }
+
+        /* shrink marquee and keep it from overlapping center content */
+        .woc-marquee { font-size: clamp(18px, 4.5vw, 36px); top: 52%; }
+
+        /* ensure overlay caption and titles are readable and don't overflow */
+        .woc-image .woc-overlay-caption {
+            right: 3%;
+            left: auto;
+            top: auto;
+            bottom: 6vh;
+            transform: none;
+            text-align: right;
+            font-size: 12px;
+            max-width: calc(100vw - 36px);
+        }
+
+        .woc-title-top { right: 12px; top: 22vh; font-size: 14px; }
+
+        .woc-alt-desc { left: 18px; right: 18px; top: auto; bottom: 80px; text-align: left; }
+
+        /* make images shorter so content beneath becomes accessible */
+        .woc-image { height: 60vh; min-height: 60vh; }
+
+        /* ensure back button and floating controls are reachable */
+        .woc-bg .woc-back { right: 12px !important; bottom: 16px !important; font-size: 12px; }
+    }
+
+    @media (max-width: 480px) {
+        .top-right-menu { right: 8px; gap: 8px; font-size: 11px; }
+        .top-right-title { left: 8px; top: 8px; font-size: 11px; }
+        .nav-link { display: none; } /* hide secondary links to avoid overlap on very small screens */
+        .woc-marquee { display: none; }
+        .woc-image { height: 50vh; min-height: 50vh; }
+        .woc-image .woc-overlay-caption { right: 6px; left: 6px; bottom: 4vh; font-size: 11px; text-align: center; }
+        .woc-title-top { right: 8px; top: 18vh; font-size: 12px; }
+    }
 .contact-card {
     width: 100%;
     max-width: 520px;
@@ -1443,6 +1504,32 @@ img {
     gap: 18px;
     box-sizing: border-box;
 }
+
+/* Global safeguards for very large display elements that cause overlap */
+.cv-title {
+    /* cap the absurdly large heading while allowing desktop scale */
+    font-size: clamp(48px, 12vw, 2750px);
+}
+
+/* Make work items scale and avoid forcing overflow */
+.work-item {
+    font-size: clamp(20px, 6vw, 70px);
+    width: auto; /* prevent 150% width forcing horizontal overflow on small screens */
+}
+
+/* Fallback smaller base font on narrow viewports to reduce overlap */
+@media (max-width: 640px) {
+    body {
+        font-size: 14px;
+    }
+}
+
+/* Ensure background images that fill the viewport keep content visible */
+.woc-image {
+    background-position: center center;
+    background-size: cover;
+}
+
 
 .contact-title {
     font-family: 'Inconsolata', monospace;
@@ -1561,6 +1648,7 @@ img {
     padding: 40px 65px;
     margin-top: 60px;
     position: relative;
+    background: transparent;
 }
 
 .footer-email {
