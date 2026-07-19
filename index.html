@@ -20,7 +20,7 @@
         <nav class="top-right-menu">
             <a href="info.html" class="nav-link">Info</a>
             <a href="work.html" class="nav-link">Works</a>
-            <a href="events.html" class="nav-link">Events</a>
+            <button class="nav-link strudel-nav-trigger" type="button" aria-expanded="false" aria-controls="strudel-panel">⁄(⁄ ⁄”⁄-⁄”⁄ ⁄)⁄</button>
             <a href="contact.html" class="nav-link">Contact</a>
         </nav>
         
@@ -37,6 +37,18 @@
                 <img src="images/link.png" alt="Apple Music" class="social-icon">
             </a>
         </div>
+                <section class="strudel-widget" aria-label="Strudel embed">
+                    <div id="strudel-panel" class="strudel-widget-panel" aria-hidden="true">
+                        <iframe
+                            class="strudel-widget-frame"
+                            src="https://strudel.cc/#Ly8gIExpdmUgY29kaW5nIGFuZCBNdXNpYwovLyAgYnkgaW1nb2xka2ltCi8vIHByZXNzIDxvcHRpb24gKyBlbnRlcj4gdG8gcnVuIAoKc2V0Y3BtKDEyMC80KQoKJDpub3RlKCJjIzIgZCMzLCBnIzIsIGYjNyIpLnNvdW5kKCJnbV9zZWFzaG9yZSIpCiAgLmRlbGF5KDAuMTQ1KS5hdHRhY2soMC4yNSkucm9vbSgxKS5yb29tc2l6ZSgwLjQ0KQogIC5nYWluKDAuOTEpLmhwZig0MDApLnNlZyg4KS5vcmJpdCgyKQoKJDpub3RlKCJjIzMsIGYjNCwgYjQsIGcjNSwgZCM0IGMjNCIpLnNvdW5kKCJnbV93aGlzdGxlIikKICAuZ2FpbigwLjY3KS5kZWxheSgwLjEyNSkuYXR0YWNrKDAuMSkubm9pc2UoMC4xMikucm9vbSgxKQogIC5yb29tc2l6ZSgwLjMpLmhwZigxMjAwKS5hdHRhY2soMC43KQoKLnRoZW1lKCJibGFja3NjcmVlbiIp"
+                            title="Strudel"
+                            loading="lazy"
+                            allow="autoplay; fullscreen"
+                            referrerpolicy="no-referrer"
+                        ></iframe>
+                    </div>
+                </section>
     </div>
     <script>
         // Kick video playback; some browsers require an explicit play call.
@@ -48,6 +60,29 @@
             };
             document.addEventListener('DOMContentLoaded', tryPlay);
             document.addEventListener('click', tryPlay, { once: true });
+        })();
+
+        (function() {
+            const widget = document.querySelector('.strudel-widget');
+            const launcher = document.querySelector('.strudel-nav-trigger');
+            const panel = document.querySelector('.strudel-widget-panel');
+            if (!widget || !launcher || !panel) return;
+
+            const setOpen = (isOpen) => {
+                widget.classList.toggle('is-open', isOpen);
+                launcher.setAttribute('aria-expanded', String(isOpen));
+                panel.setAttribute('aria-hidden', String(!isOpen));
+            };
+
+            launcher.addEventListener('click', () => {
+                setOpen(!widget.classList.contains('is-open'));
+            });
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    setOpen(false);
+                }
+            });
         })();
     </script>
 </body>
