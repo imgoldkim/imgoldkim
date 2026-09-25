@@ -17,9 +17,7 @@
     <script src="cursor-background.js"></script>
 </head>
 <body class="main-bg">
-    <video class="hero-video" autoplay muted loop playsinline preload="auto" aria-label="Main background video">
-        <source src="video/7seconds.mp4" type="video/mp4">
-    </video>
+    <img class="hero-background" src="images/PROFILE1.jpg" alt="">
     <div class="container">
         <div class="top-right-title"><a class="top-right-title-link" href="index.html" aria-label="Go to home">●◦∘◦Imgoldkim ●◌◌∘◦∘<span class="kr">금이다</span>∘◌∘</a></div>
         <nav class="top-right-menu">
@@ -56,17 +54,6 @@
                 </section>
     </div>
     <script>
-        // Kick video playback; some browsers require an explicit play call.
-        (function() {
-            const video = document.querySelector('.hero-video');
-            if (!video) return;
-            const tryPlay = () => {
-                video.play().catch(() => {});
-            };
-            document.addEventListener('DOMContentLoaded', tryPlay);
-            document.addEventListener('click', tryPlay, { once: true });
-        })();
-
         (function() {
             const widget = document.querySelector('.strudel-widget');
             const launcher = document.querySelector('.strudel-nav-trigger');

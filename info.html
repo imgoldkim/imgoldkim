@@ -17,9 +17,7 @@
     <script src="cursor-background.js"></script>
 </head>
 <body class="info-bg">
-    <video class="hero-video" autoplay muted loop playsinline preload="auto" aria-label="Info background video">
-        <source src="video/green.mp4" type="video/mp4">
-    </video>
+    <img class="hero-background" src="images/info2.jpeg" alt="">
     <div class="container">
         <div class="top-right-title"><a class="top-right-title-link" href="index.html" aria-label="Go to home">●◦∘◦Imgoldkim ●◌◌∘◦∘<span class="kr">금이다</span>∘◌∘</a></div>
         <nav class="top-right-menu">
@@ -28,16 +26,15 @@
             <a class="nav-link" href="events.html">Events</a>
             <a class="nav-link" href="contact.html">Contact</a>
         </nav>
-        <main style="display: flex; justify-content: center; align-items: center; min-height: 140vh;">
+        <main class="info-main">
             <div class="bio-container">
-                <section class="bio-section" style="text-align: center;">
+            <section class="bio-section">
                     <p>
                         <strong style="font-size:18pt !important; font-weight: 350 !important; font-family: 'Inconsolata', monospace !important; display: inline-block; margin-bottom: 28px !important;">∘◦◦<span style="font-size:22pt !important; font-weight: 350 !important; font-family: 'Inconsolata', monospace !important;">Bio</span>◦◌∘◦∘</strong><br><br>
                         Gold Davin Kim is an artist based between Geneva and London, working across sound, writing, film, and performance. Their practice centres on hearing and writing as tools for exploring invisible connections between human existence, place, and systems. Through sound collection and its translation into language, image, and form, Gold investigates intersections of sensation, memory, and emotion, revealing relationships between inner perception and external reality. With a background in contemporary music and fine arts, they work with live coding and creative programming to produce real-time sound and visual compositions, using technology as a poetic and experimental tool to question authorship, temporality, and human connection.
                     </p>
                 </section>
                 <div class="bio-image">
-                    <img src="images/imgoldkim.png" alt="ImGoldKim">
                     <div class="bio-links">
                         <div class="link-group">
                             <div class="link-title">◦CV◦</div>
@@ -63,15 +60,5 @@
             </a>
         </div>
     </div>
-    <script>
-        // Ensure background video starts (some browsers block autoplay without a play call)
-        (function() {
-            const video = document.querySelector('.hero-video');
-            if (!video) return;
-            const tryPlay = () => video.play().catch(() => {});
-            document.addEventListener('DOMContentLoaded', tryPlay);
-            document.addEventListener('click', tryPlay, { once: true });
-        })();
-    </script>
 </body>
 </html>
