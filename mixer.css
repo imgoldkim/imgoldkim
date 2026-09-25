@@ -177,6 +177,27 @@ body.main-bg {
     padding-top: 20px;
 }
 
+@media (max-width: 640px) {
+    .mixer-main {
+        min-height: auto;
+        padding: 96px 16px 64px;
+    }
+
+    .mixer-container {
+        width: 100%;
+        max-width: none;
+    }
+
+    .mixer-header h1 {
+        font-size: 24pt;
+    }
+
+    .canvas-wrap canvas {
+        width: 100%;
+        height: auto;
+    }
+}
+
 canvas {
     width: 100%;
     max-width: 600px;

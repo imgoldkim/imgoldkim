@@ -46,3 +46,11 @@
   .interface-grid { grid-template-columns: 1fr; }
   .info-cards { flex-direction:row; }
 }
+
+@media (max-width: 640px) {
+  .interface-grid { gap: 16px; }
+  .info-cards { flex-direction: column; }
+  .terminal-card { min-height: 300px; }
+  .terminal-output { min-width: 0; }
+  .container > main { min-height: auto !important; padding: 84px 0 24px !important; }
+}
