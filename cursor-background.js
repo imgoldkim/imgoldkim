@@ -1,6 +1,17 @@
+// Keep the site's desktop composition proportionally scaled as the viewport narrows.
+function updatePageScale() {
+    const designWidth = 1440;
+    const scale = Math.min(1, Math.max(0.25, window.innerWidth / designWidth));
+    document.documentElement.style.setProperty('--page-scale', scale);
+}
+
+updatePageScale();
+window.addEventListener('resize', updatePageScale);
+
 // Cursor-based background movement
 document.addEventListener('DOMContentLoaded', function() {
     const body = document.body;
+    body.classList.add('proportional-layout');
     console.log('Cursor background script loaded!');
 
     // Keep main page text static: disable background parallax on main page

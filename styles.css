@@ -163,13 +163,16 @@
 /* Main page background */
 html, body {
     height: 100%;
-    min-height: 100vh;
     margin: 0;
     padding: 0;
     overflow-x: hidden; /* prevent horizontal scroll causing black gutter */
 }
 
-/* Force page and containers to black to avoid any white gaps */
+body {
+    min-height: 100vh;
+}
+
+/* Keep the document edges transparent so each page background can fill the viewport. */
 html, body, .container, .woc-container, footer {
     background: #000 !important;
     color: #fff !important;
@@ -418,11 +421,6 @@ button.nav-link {
     font-size: 20px; /* increased 'i' size */
     line-height: 1;
 }
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    text-align: center;
-}
 
 .cv-details {
     max-width: 700px;
@@ -443,7 +441,6 @@ button.nav-link {
     -webkit-background-clip: initial;
     -webkit-text-fill-color: initial;
     background-clip: initial;
-    text-fill-color: initial;
 }
 
 .cv-section-title {
@@ -1071,10 +1068,6 @@ img {
     pointer-events: none;
     transition: opacity 220ms ease;
 }
-.woc-bg .woc-back.visible {
-    opacity: 1 !important;
-    pointer-events: auto !important;
-}
 
 /* dashed underline appearing under Back on hover (absolute so text doesn't move) */
 .woc-bg .woc-back {
@@ -1416,7 +1409,6 @@ img {
     100% { transform: translateX(-50%); }
 }
 
-.keyframes-placeholder{}
 @keyframes woc-wave {
     0% { transform: translateY(0px); }
     12.5% { transform: translateY(-18px); }
@@ -1784,6 +1776,44 @@ img {
     body {
         font-size: 14px;
     }
+}
+
+/* Preserve the desktop composition while the whole page scales down. */
+.proportional-layout .top-right-menu {
+    top: calc(80px * var(--page-scale, 1));
+    right: calc(140px * var(--page-scale, 1));
+}
+
+.proportional-layout .top-right-title {
+    top: calc(80px * var(--page-scale, 1));
+    left: calc(65px * var(--page-scale, 1));
+}
+
+.proportional-layout .nav-link {
+    display: inline-block !important;
+}
+
+.proportional-layout .works-main {
+    padding: 140px 24px 160px;
+}
+
+.proportional-layout .work-item {
+    font-size: 70px;
+}
+
+.proportional-layout .info-main {
+    align-items: center;
+    min-height: 100vh;
+    padding: 150px 32px 100px;
+}
+
+.proportional-layout .bio-container {
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 330px);
+}
+
+.proportional-layout .contact-card {
+    min-height: 520px;
+    padding: 45px;
 }
 
 /* Ensure background images that fill the viewport keep content visible */
