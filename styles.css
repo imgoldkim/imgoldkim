@@ -1816,6 +1816,88 @@ img {
     padding: 45px;
 }
 
+@media (max-width: 640px) {
+    .proportional-layout .top-right-title {
+        top: 16px;
+        left: 16px;
+        font-size: 12pt;
+        line-height: 1.1;
+    }
+
+    .proportional-layout .top-right-menu {
+        top: 16px;
+        right: 16px;
+        gap: 10px;
+    }
+
+    .proportional-layout .nav-link {
+        font-size: 11pt;
+        letter-spacing: 1px;
+    }
+
+    .proportional-layout .works-main {
+        min-height: 100dvh;
+        padding: 100px 14px 90px;
+    }
+
+    .proportional-layout .works-list {
+        margin-top: 32px;
+    }
+
+    .proportional-layout .work-item {
+        width: 100%;
+        font-size: clamp(24px, 8vw, 40px);
+        padding: 4px 0;
+    }
+
+    .proportional-layout .info-main {
+        min-height: auto;
+        padding: 100px 20px 80px;
+        align-items: flex-start;
+    }
+
+    .proportional-layout .bio-container {
+        grid-template-columns: 1fr;
+        gap: 36px;
+    }
+
+    .info-bg .bio-section,
+    .info-bg .bio-section * {
+        font-size: 12pt !important;
+    }
+
+    .info-bg .link-title {
+        font-size: 17pt !important;
+    }
+
+    .info-bg .link-subtitle {
+        font-size: 11pt !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .proportional-layout .top-right-title {
+        left: 10px;
+        top: 10px;
+        font-size: 10pt;
+    }
+
+    .proportional-layout .top-right-menu {
+        right: 10px;
+        top: 10px;
+        gap: 7px;
+    }
+
+    .proportional-layout .nav-link {
+        font-size: 9pt;
+        letter-spacing: 0.5px;
+    }
+
+    .proportional-layout .strudel-nav-trigger {
+        display: none !important;
+    }
+}
+
 /* Ensure background images that fill the viewport keep content visible */
 .woc-image {
     background-position: center center;
