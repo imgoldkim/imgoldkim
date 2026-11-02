@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
             );
 
             gradient.addColorStop(0, `rgba(255, 190, 235, ${opacity})`);
-            gradient.addColorStop(0.1, 'rgba(255, 0, 251, 0.95)');
+            gradient.addColorStop(0.01, 'rgba(255, 0, 251, 0.95)');
 
             context.fillStyle = gradient;
             context.beginPath();
