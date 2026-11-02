@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 life: 1
             });
 
-            if (points.length > 40) {
+            if (points.length > 30) {
                 points.pop();
             }
         }
@@ -73,8 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
        for (let i = points.length - 1; i >= 1; i--) {
             const point = points[i];
             const progress = i / points.length;
-            const size = 22 * (1 - progress);
-            const opacity = 0.38 * (1 - progress);
+            const size = 16 * (1 - progress);
+            const opacity = 0.03 * (1 - progress);
 
             const gradient = context.createRadialGradient(
                 point.x,
@@ -86,11 +86,11 @@ document.addEventListener('DOMContentLoaded', () => {
             );
 
             gradient.addColorStop(0, `rgba(255, 190, 235, ${opacity})`);
-            gradient.addColorStop(0.01, 'rgba(255, 0, 251, 0.95)');
+            gradient.addColorStop(0., 'rgba(252, 247, 252, 0.08)');
 
             context.fillStyle = gradient;
             context.beginPath();
-            context.arc(point.x, point.y, size, 0, Math.PI * 4);
+            context.arc(point.x, point.y, size, 0, Math.PI * 2);
             context.fill();
         }
 

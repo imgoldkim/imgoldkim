@@ -2165,7 +2165,7 @@ a, button { cursor: none; }     /* 링크·버튼도 숨기기 */
     left: 0;
     width: 32px;
     height: 32px;
-    border-radius: 70%;
+    border-radius: 60%;
     pointer-events: none;
     z-index: 9999;
 
@@ -2179,7 +2179,7 @@ a, button { cursor: none; }     /* 링크·버튼도 숨기기 */
     );
     background-size: 300% 300%;
 
-    animation: cursor-gradient 10s ease-in-out infinite;
+    animation: cursor-gradient 8s ease-in-out infinite;
 }
 
 @keyframes cursor-gradient {
