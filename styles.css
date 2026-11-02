@@ -2156,3 +2156,62 @@ img {
     visibility: hidden !important;
 }
 
+body { cursor: none; }          /* 기본 커서 숨기기 */
+a, button { cursor: none; }     /* 링크·버튼도 숨기기 */
+
+.cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 70%;
+    pointer-events: none;
+    z-index: 9999;
+
+    background: linear-gradient(
+        135deg,
+        #ff05b4,
+        #ff0766,
+        #ff6fc5,
+        #c8b0ff,
+        #f1f751
+    );
+    background-size: 300% 300%;
+
+    animation: cursor-gradient 10s ease-in-out infinite;
+}
+
+@keyframes cursor-gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.cursor-trail-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9998;
+}
+
+.cursor {
+    z-index: 9999;
+}
+
+
+html,
+body,
+*,
+*::before,
+*::after {
+    cursor: none !important;
+}

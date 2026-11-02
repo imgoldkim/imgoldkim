@@ -5,29 +5,97 @@ function updatePageScale() {
     document.documentElement.style.setProperty('--page-scale', scale);
 }
 
-updatePageScale();
-window.addEventListener('resize', updatePageScale);
 
-// Cursor-based background movement
-document.addEventListener('DOMContentLoaded', function() {
-    const body = document.body;
-    body.classList.add('proportional-layout');
-    console.log('Cursor background script loaded!');
 
-    // Keep main page text static: disable background parallax on main page
-    if (body.classList.contains('main-bg') || body.classList.contains('info-bg')) {
-        return; // do not alter background position on the main page or info page
+document.addEventListener('DOMContentLoaded', () => {
+    const cursor = document.querySelector('.cursor');
+
+    if (!cursor) return;
+
+    const canvas = document.createElement('canvas');
+    canvas.className = 'cursor-trail-canvas';
+    document.body.appendChild(canvas);
+
+    const context = canvas.getContext('2d');
+    const points = [];
+    const dpr = window.devicePixelRatio || 1;
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let started = false;
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+        canvas.style.width = `${window.innerWidth}px`;
+        canvas.style.height = `${window.innerHeight}px`;
+        context.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
-    document.addEventListener('mousemove', function(e) {
-        // Calculate mouse position as percentage of window
-        const xPercent = (e.clientX / window.innerWidth) * 100;
-        const yPercent = (e.clientY / window.innerHeight) * 100;
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
 
-        // Move background in SAME direction as cursor (inverted parallax)
-        const bgX = 50 - (xPercent - 50) * 1.5;
-        const bgY = 50 - (yPercent - 50) * 1.5;
+    document.addEventListener('mousemove', (event) => {
+        mouseX = event.clientX;
+        mouseY = event.clientY;
 
-        body.style.backgroundPosition = `${bgX}% ${bgY}%`;
+        if (!started) {
+            currentX = mouseX;
+            currentY = mouseY;
+            started = true;
+        }
     });
+
+    function animate() {
+        if (started) {
+            currentX += (mouseX - currentX) * 0.45;
+            currentY += (mouseY - currentY) * 0.45;
+
+            const cursorSize = cursor.offsetWidth;
+            cursor.style.transform =
+                `translate3d(${currentX - cursorSize / 2}px, ${currentY - cursorSize / 2}px, 0)`;
+
+            points.unshift({
+                x: currentX,
+                y: currentY,
+                life: 1
+            });
+
+            if (points.length > 40) {
+                points.pop();
+            }
+        }
+
+        context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+       for (let i = points.length - 1; i >= 1; i--) {
+            const point = points[i];
+            const progress = i / points.length;
+            const size = 22 * (1 - progress);
+            const opacity = 0.38 * (1 - progress);
+
+            const gradient = context.createRadialGradient(
+                point.x,
+                point.y,
+                0,
+                point.x,
+                point.y,
+                size
+            );
+
+            gradient.addColorStop(0, `rgba(255, 190, 235, ${opacity})`);
+            gradient.addColorStop(1, 'rgba(255, 255, 0, 0.95)');
+
+            context.fillStyle = gradient;
+            context.beginPath();
+            context.arc(point.x, point.y, size, 0, Math.PI * 4);
+            context.fill();
+        }
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
 });
