@@ -114,3 +114,37 @@ if (isMobile) {
 
     animate();
 });
+
+
+function updateBrowserThemeColor(color) {
+    let themeColor = document.querySelector('meta[name="theme-color"]');
+
+    if (!themeColor) {
+        themeColor = document.createElement('meta');
+        themeColor.name = 'theme-color';
+        document.head.appendChild(themeColor);
+    }
+
+    themeColor.setAttribute('content', color);
+}
+
+function updateThemeFromHero() {
+    const hero = document.querySelector('.hero-background');
+
+    if (!hero || !hero.complete || !hero.naturalWidth) return;
+
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d', { willReadFrequently: true });
+
+    canvas.width = 1;
+    canvas.height = 1;
+
+    context.drawImage(hero, 0, 0, 1, 1);
+
+    const pixel = context.getImageData(0, 0, 1, 1).data;
+    updateBrowserThemeColor(`rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`);
+    
+}
+
+window.addEventListener('load', updateThemeFromHero);
+window.addEventListener('resize', updateThemeFromHero);

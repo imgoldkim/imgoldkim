@@ -1,16 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap');
 
 /* Bio page background */
+
 .work-bg {
-    background: #000 !important;
+    background: #e9ff7c !important;
     background-image: none !important;
 }
 .events-bg {
-    background: #000 !important;
+    background: #ff0202 !important;
     background-image: none !important;
 }
 .info-bg {
-    background: #000 !important;
+    background: #fbfcfc !important;
     background-image: none !important;
 }
 .info-bg::after,
@@ -18,7 +19,7 @@
     display: none !important;
 }
 .info-bg .top-right-title {
-    color: #092b5c !important;
+    color: #f9fbfd !important;
 }
 .info-bg .top-right-title a {
     color: #092b5c !important;
@@ -130,20 +131,13 @@
         justify-self: center;
     }
 }
+
+
 .contact-bg {
-    background: #000 !important;
-    background-image: none !important;
-}
-.contact-bg::before {
-    position: fixed;
-    inset: -24px;
-    content: '';
-    background: url('images/wave.png') center / cover no-repeat;
-    filter: blur(18px);
-    transform: scale(1.05);
-    z-index: 0;
-    pointer-events: none;
-}
+background: #ab1af3 !important;
+background-image: none !important;
+}  
+
 .contact-bg .hero-background {
     position: fixed;
     inset: 0;
@@ -160,17 +154,6 @@
 .contact-bg .top-right-title {
     pointer-events: auto;
 }
-/* Main page background */
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden; /* prevent horizontal scroll causing black gutter */
-}
-
-body {
-    min-height: 100vh;
-}
 
 /* Keep the document edges transparent so each page background can fill the viewport. */
 html, body, .container, .woc-container, footer {
@@ -184,6 +167,7 @@ body, html { margin: 0; padding: 0; }
 /* ensure footer doesn't add unexpected height or white background */
 footer { background: transparent !important; margin: 0; padding: 0; }
 /* Bottom navigation menu styles */
+
 .bottom-menu {
     display: flex;
     justify-content: center;
@@ -222,7 +206,7 @@ body {
     font-family: 'Diatype', Arial, sans-serif;
     font-weight: 900;
     line-height: 1.6;
-    background: #000;
+    background: #000000;
     cursor: url('images/cursor.png'), auto;
 }
 
@@ -231,11 +215,6 @@ body {
     cursor: url('images/cursor.png'), auto;
 }
 
-/* Animated background for main page */
-body.main-bg {
-    background: #000;
-    background-image: none;
-}
 
 .container {
     max-width: 1200px;
@@ -254,7 +233,7 @@ header {
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Diatype', Arial, sans-serif;
     font-weight: 900;
-    color: #333;
+    color: #ffffff;
     margin-bottom: 20px;
 }
 
@@ -394,7 +373,7 @@ button.nav-link {
 .strudel-nav-trigger:hover,
 .strudel-nav-trigger:focus-visible {
     background-color: #e9cbff;
-    color: #21143a;
+    color: #6311fc;
     opacity: 1;
     animation-play-state: paused;
 }
@@ -532,7 +511,7 @@ button.nav-link {
 .poster-section > a:focus-visible {
     transform: translateY(-8px) scale(1.02);
     filter: brightness(1.08);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.28);
+    box-shadow: 0 12px 24px rgba(249, 247, 247, 0.28);
 }
 
 .works-list {
@@ -721,91 +700,6 @@ img {
 }
 
 
-
-.player-header h2 {
-    font-family: 'Inconsolata', monospace;
-    font-size: 16pt;
-    font-weight: 300;
-    color: #fff;
-    margin: 0;
-}
-
-.player-controls {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-
-.player-btn {
-    flex: 1;
-    min-width: 80px;
-    padding: 12px 16px;
-    background: transparent;
-    color: #fff;
-    border: 1px solid #fff;
-    border-radius: 0;
-    font-family: 'Inconsolata', monospace;
-    font-size: 11pt;
-    font-weight: 300;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.player-btn:hover {
-    background: #fff;
-    color: #000;
-}
-
-.player-btn:active {
-    transform: translateY(1px);
-}
-
-.player-visualizer {
-    width: 100%;
-    height: 150px;
-    background: #000;
-    border: 1px solid #fff;
-}
-
-#audioCanvas {
-    width: 100%;
-    height: 100%;
-    display: block;
-}
-
-.player-volume {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.player-volume label {
-    font-family: 'Inconsolata', monospace;
-    font-size: 11pt;
-    font-weight: 300;
-    color: #fff;
-}
-
-.volume-slider {
-    width: 100%;
-    height: 4px;
-    background: #444;
-    border: none;
-    border-radius: 0;
-    outline: none;
-    -webkit-appearance: none;
-    appearance: none;
-}
-
-.volume-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 16px;
-    height: 16px;
-    background: #fff;
-    cursor: pointer;
-    border: 1px solid #fff;
-}
 
 /* Water of Connection page */
 .woc-bg {
@@ -1489,9 +1383,15 @@ img {
 }
 
 /* keep the main page bottom icons background-free */
-.main-bg .bottom-social-icons {
-    background: none !important;
+.main-bg {
+    background: #ff00fb !important;
+    background-image: none !important;
 }
+
+.contact-bg {
+background: #501af3 !important;
+background-image: none !important;
+}  
 
 .strudel-widget {
     position: fixed;
@@ -2422,26 +2322,30 @@ body,
 }
 
 @media (max-width: 600px) {
-    .contact-footer {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-        padding: 34px 18px 40px;
+    html,
+    body {
+        width: 100%;
+        min-height: 100dvh;
+        background: #000000 !important;
     }
 
-    .footer-email {
-        position: static;
-        order: -1;
-        margin: 0 0 8px;
+    .hero-background {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100dvh;
+        min-height: 100svh;
+        object-fit: cover;
+        object-position: center center;
     }
 
-    .footer-email a {
-        font-size: 10pt;
-        white-space: nowrap;
+    .contact-bg .hero-background {
+        width: 100vw;
+        height: 100dvh;
+        object-fit: cover;
     }
 
-    .footer-social {
-        order: 1;
+    .contact-bg::before {
+        inset: 0;
     }
 }
