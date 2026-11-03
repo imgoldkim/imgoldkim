@@ -2237,7 +2237,7 @@ body,
 
     .nav-link {
         display: inline-block;
-        font-size: clamp(14px, 3.5vw, 15px);
+        font-size: clamp(16px, 3.5vw, 15px);
         letter-spacing: 0.5px;
     }
 }
@@ -2301,5 +2301,122 @@ body,
 
     100% {
         transform: translate(10vw, 22vh) rotate(-108deg);
+    }
+}
+
+
+@media (max-width: 600px) {
+    html,
+    body {
+        width: 100%;
+        min-width: 0;
+        overflow-x: hidden;
+    }
+
+    .contact-main {
+        width: 100%;
+        min-height: auto;
+        box-sizing: border-box;
+        padding: 105px 18px 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 42px;
+    }
+
+    /* welcome to my island를 위쪽에 배치 */
+    .contact-right {
+        order: -1;
+        width: 100%;
+        min-width: 0;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .welcome-message {
+        width: 100%;
+    }
+
+    .welcome-message h2 {
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        font-size: clamp(14px, 4vw, 18px);
+        line-height: 1.4;
+        overflow-wrap: anywhere;
+    }
+
+    /* 폼을 아래쪽에 배치 */
+    .contact-section {
+        order: 1;
+        width: 100%;
+        min-height: auto;
+        display: block;
+    }
+
+    .contact-card {
+        width: 100%;
+        max-width: none;
+        min-height: auto;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .contact-title {
+        margin-bottom: 18px;
+        font-size: 16px;
+    }
+
+    .contact-form {
+        width: 100%;
+        gap: 14px;
+    }
+
+    .form-row,
+    .two-col {
+        width: 100%;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .form-field,
+    .form-field input,
+    .form-field textarea {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .form-field input,
+    .form-field textarea {
+        font-size: 16px;
+    }
+
+    .form-field textarea {
+        min-height: 120px;
+    }
+
+    .contact-submit {
+        align-self: flex-end;
+        margin-top: 4px;
+        padding: 10px 22px;
+    }
+
+    .contact-footer {
+        width: 100%;
+        box-sizing: border-box;
+        margin-top: 20px;
+        padding: 24px 18px 40px;
+    }
+
+  
+}
+
+ 
+@media (max-width: 600px) {
+    .contact-bg .top-right-menu .nav-link:last-child {
+        font-size: 12px;
+        letter-spacing: 0;
+        white-space: nowrap;
     }
 }
