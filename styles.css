@@ -2420,3 +2420,28 @@ body,
         white-space: nowrap;
     }
 }
+
+@media (max-width: 600px) {
+    .contact-footer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        padding: 34px 18px 40px;
+    }
+
+    .footer-email {
+        position: static;
+        order: -1;
+        margin: 0 0 8px;
+    }
+
+    .footer-email a {
+        font-size: 10pt;
+        white-space: nowrap;
+    }
+
+    .footer-social {
+        order: 1;
+    }
+}
