@@ -12,6 +12,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!cursor) return;
 
+
+    const isMobile = window.matchMedia('(max-width: 600px)').matches;
+
+if (isMobile) {
+    cursor.style.pointerEvents = 'auto';
+
+    cursor.addEventListener('click', () => {
+        const isSubPage = window.location.pathname.includes('/webpages/');
+
+        window.location.href = isSubPage
+            ? '../../index.html'
+            : 'index.html';
+    });
+}
+
     const canvas = document.createElement('canvas');
     canvas.className = 'cursor-trail-canvas';
     document.body.appendChild(canvas);

@@ -581,11 +581,10 @@ button.nav-link {
     position: fixed;
     min-width: 420px;
     max-width: 880px;
-    background: rgba(0, 0, 0, 0.9);
+    background: transparent;
     color: #fff;
     border: none;
-    padding: 10px;
-    box-shadow: 0 22px 40px rgba(0, 0, 0, 0.6);
+    box-shadow: none;
     font-family: "Bitcount Single", system-ui, sans-serif;
     font-optical-sizing: auto;
     font-weight: 300;
@@ -600,7 +599,6 @@ button.nav-link {
     letter-spacing: 0.6px;
     pointer-events: none;
     z-index: 120;
-    border-radius: 8px;
     overflow: hidden;
 }
 
@@ -1738,7 +1736,6 @@ img {
     @media (max-width: 480px) {
         .top-right-menu { right: 8px; gap: 8px; font-size: 11px; }
         .top-right-title { left: 8px; top: 8px; font-size: 11px; }
-        .nav-link { display: none; } /* hide secondary links to avoid overlap on very small screens */
         .woc-marquee { display: none; }
         .woc-image { height: 50vh; min-height: 50vh; }
         .woc-image .woc-overlay-caption { right: 6px; left: 6px; bottom: 4vh; font-size: 11px; text-align: center; }
@@ -2172,14 +2169,13 @@ a, button { cursor: none; }     /* 링크·버튼도 숨기기 */
     background: linear-gradient(
         135deg,
         #ff05b4,
-        #ff0766,
+        #f5ff8a,
         #ff6fc5,
         #c8b0ff,
-        #f1f751
+        #ffffff
     );
     background-size: 300% 300%;
 
-    animation: cursor-gradient 8s ease-in-out infinite;
 }
 
 @keyframes cursor-gradient {
@@ -2214,4 +2210,96 @@ body,
 *::before,
 *::after {
     cursor: none !important;
+}
+
+
+@media (max-width: 600px) {
+    .top-right-title {
+        position: fixed;
+        top: 600px;
+        left: 12px;
+        right: 12px;
+        font-size: clamp(10px, 3.2vw, 14px);
+        line-height: 1.2;
+        white-space: nowrap;
+        text-align: center;
+    }
+
+    .top-right-menu {
+        position: fixed;
+        top: 23px;
+        left: 8px;
+        right: 8px;
+        justify-content: center;
+        gap: clamp(8px, 3vw, 18px);
+        white-space: nowrap;
+    }
+
+    .nav-link {
+        display: inline-block;
+        font-size: clamp(14px, 3.5vw, 15px);
+        letter-spacing: 0.5px;
+    }
+}
+
+@media (max-width: 600px) {
+    /* 기존 상단 타이틀 숨김 */
+    .top-right-title {
+        display: none;
+    }
+
+    /* 메뉴는 상단에 유지 */
+    .top-right-menu {
+        top: 23px;
+    }
+
+    /* 타이틀을 담은 움직이는 원형 */
+    @media (max-width: 600px) {
+    .cursor {
+        width: 69px;
+        height: 69px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: auto;
+        cursor: pointer !important;
+        animation:
+            cursor-gradient 3.5s ease-in-out infinite,
+            mobile-title-float 15s ease-in-out infinite;
+    }
+
+    .cursor::after {
+        content: "川o･-･)ﾉ";
+        display: block;
+        white-space: pre;
+        text-align: center;
+        line-height: 1.2;
+        color: #ffffff;
+        font-family: "Inconsolata", monospace;
+        font-size: 13px;
+        font-weight: 300;
+        letter-spacing: 0.5px;
+    }
+}
+
+@keyframes mobile-title-float {
+    0% {
+        transform: translate(10vw, 22vh) rotate(-121deg);
+    }
+
+    25% {
+        transform: translate(65vw, 30vh) rotate(195deg);
+    }
+
+    50% {
+        transform: translate(72vw, 70vh) rotate(-150deg);
+    }
+
+    75% {
+        transform: translate(18vw, 76vh) rotate(180deg);
+    }
+
+    100% {
+        transform: translate(10vw, 22vh) rotate(-108deg);
+    }
 }
